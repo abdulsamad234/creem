@@ -2113,9 +2113,19 @@
           },
           "404": {
             "description": "Not Found - Resource does not exist"
+          },
+          "409": {
+            "description": "An account with this name (compared case-insensitively) already exists for the customer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerCreditsErrorResponseDto"
+                }
+              }
+            }
           }
         },
-        "tags": ["Customer Credits - Accounts (Experimental)"],
+        "tags": ["Customer Credits - Accounts"],
         "security": [
           {
             "ApiKey": []
@@ -2210,7 +2220,7 @@
             "description": "Not Found - Resource does not exist"
           }
         },
-        "tags": ["Customer Credits - Accounts (Experimental)"],
+        "tags": ["Customer Credits - Accounts"],
         "security": [
           {
             "ApiKey": []
@@ -2256,7 +2266,7 @@
             "description": "Not Found - Resource does not exist"
           }
         },
-        "tags": ["Customer Credits - Accounts (Experimental)"],
+        "tags": ["Customer Credits - Accounts"],
         "security": [
           {
             "ApiKey": []
@@ -2312,7 +2322,7 @@
             "description": "Not Found - Resource does not exist"
           }
         },
-        "tags": ["Customer Credits - Accounts (Experimental)"],
+        "tags": ["Customer Credits - Accounts"],
         "security": [
           {
             "ApiKey": []
@@ -2407,7 +2417,7 @@
             "description": "Not Found - Resource does not exist"
           }
         },
-        "tags": ["Customer Credits - Accounts (Experimental)"],
+        "tags": ["Customer Credits - Accounts"],
         "security": [
           {
             "ApiKey": []
@@ -2463,7 +2473,7 @@
             }
           }
         },
-        "tags": ["Customer Credits - Accounts (Experimental)"],
+        "tags": ["Customer Credits - Accounts"],
         "security": [
           {
             "ApiKey": []
@@ -2519,7 +2529,7 @@
             }
           }
         },
-        "tags": ["Customer Credits - Accounts (Experimental)"],
+        "tags": ["Customer Credits - Accounts"],
         "security": [
           {
             "ApiKey": []
@@ -2585,7 +2595,7 @@
             }
           }
         },
-        "tags": ["Customer Credits - Accounts (Experimental)"],
+        "tags": ["Customer Credits - Accounts"],
         "security": [
           {
             "ApiKey": []
@@ -2651,7 +2661,7 @@
             }
           }
         },
-        "tags": ["Customer Credits - Accounts (Experimental)"],
+        "tags": ["Customer Credits - Accounts"],
         "security": [
           {
             "ApiKey": []
@@ -2707,7 +2717,7 @@
             "description": "Not Found - Resource does not exist"
           }
         },
-        "tags": ["Customer Credits - Accounts (Experimental)"],
+        "tags": ["Customer Credits - Accounts"],
         "security": [
           {
             "ApiKey": []
@@ -2763,7 +2773,1000 @@
             }
           }
         },
-        "tags": ["Customer Credits - Accounts (Experimental)"],
+        "tags": ["Customer Credits - Accounts"],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      }
+    },
+    "/v1/customer-credits/transactions": {
+      "post": {
+        "operationId": "postCustomerCreditsTransaction",
+        "x-speakeasy-name-override": "postTransaction",
+        "x-speakeasy-group": "customerCredits",
+        "summary": "Post a transaction",
+        "description": "Post a multi-entry transaction. Entries must balance (total debits must equal total credits).",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostTransactionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Transaction posted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid input parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist"
+          },
+          "409": {
+            "description": "Account frozen or closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerCreditsErrorResponseDto"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unbalanced transaction — debits must equal credits",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerCreditsErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Customer Credits - Transactions"],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "listCustomerCreditsTransactionsByReference",
+        "x-speakeasy-name-override": "listTransactionsByReference",
+        "x-speakeasy-group": "customerCredits",
+        "summary": "List transactions by reference",
+        "description": "List all transactions matching a reference string.",
+        "parameters": [
+          {
+            "name": "reference",
+            "required": true,
+            "in": "query",
+            "description": "Find all transactions matching this reference",
+            "schema": {
+              "example": "order_xyz",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of transactions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionListResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid input parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist"
+          }
+        },
+        "tags": ["Customer Credits - Transactions"],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      }
+    },
+    "/v1/customer-credits/transactions/{id}": {
+      "get": {
+        "operationId": "getCustomerCreditsTransaction",
+        "x-speakeasy-name-override": "getTransaction",
+        "x-speakeasy-group": "customerCredits",
+        "summary": "Retrieve a transaction",
+        "description": "Get details of a transaction by ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transaction details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid input parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist"
+          }
+        },
+        "tags": ["Customer Credits - Transactions"],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      }
+    },
+    "/v1/customer-credits/transactions/{id}/reverse": {
+      "post": {
+        "operationId": "reverseCustomerCreditsTransaction",
+        "x-speakeasy-name-override": "reverseTransactionById",
+        "x-speakeasy-group": "customerCredits",
+        "summary": "Reverse a transaction",
+        "description": "Reverse a previous transaction. Creates a new transaction that undoes the original, preserving the full history.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Reversal transaction created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid input parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist"
+          },
+          "409": {
+            "description": "Account frozen or closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerCreditsErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Customer Credits - Transactions"],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      }
+    },
+    "/v1/meters": {
+      "post": {
+        "operationId": "createMeter",
+        "x-speakeasy-name-override": "createMeter",
+        "x-speakeasy-group": "meters",
+        "summary": "Create a meter",
+        "description": "Define how a stream of usage events is aggregated into billable units. The unit label doubles as the display unit and as the credit bucket the meter settles into. A duplicate name within the store is rejected with 409 meter_name_taken.",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMeterApiRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Meter created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeterApiResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid input parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist"
+          },
+          "409": {
+            "description": "A meter with this name already exists in the store",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsageMeteringErrorApiResponseDto"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The meter definition is not satisfiable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsageMeteringErrorApiResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Meters"],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "listMeters",
+        "x-speakeasy-pagination": {
+          "type": "cursor",
+          "inputs": [
+            {
+              "name": "starting_after",
+              "in": "parameters",
+              "type": "cursor"
+            },
+            {
+              "name": "limit",
+              "in": "parameters",
+              "type": "limit"
+            }
+          ],
+          "outputs": {
+            "nextCursor": "$.data[-1].id",
+            "results": "$.data"
+          }
+        },
+        "x-speakeasy-name-override": "listMeters",
+        "x-speakeasy-group": "meters",
+        "summary": "List meters",
+        "description": "List your meters, newest first, as a cursor page. Archived meters are hidden unless include_archived=true.",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Maximum number of meters to return",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10,
+              "type": "number"
+            }
+          },
+          {
+            "name": "starting_after",
+            "required": false,
+            "in": "query",
+            "description": "Cursor for forward pagination — meter ID to start after",
+            "schema": {
+              "example": "mtr_abc123",
+              "type": "string"
+            }
+          },
+          {
+            "name": "ending_before",
+            "required": false,
+            "in": "query",
+            "description": "Cursor for backward pagination — meter ID to end before",
+            "schema": {
+              "example": "mtr_abc123",
+              "type": "string"
+            }
+          },
+          {
+            "name": "include_archived",
+            "required": false,
+            "in": "query",
+            "description": "Include archived meters in the page. Defaults to false — archived meters are hidden.",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated list of meters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeterListApiResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid input parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist"
+          }
+        },
+        "tags": ["Meters"],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      }
+    },
+    "/v1/meters/preview": {
+      "post": {
+        "operationId": "previewMeter",
+        "x-speakeasy-name-override": "previewMeter",
+        "x-speakeasy-group": "meters",
+        "summary": "Preview an unsaved meter definition",
+        "description": "Dry-run a candidate meter definition against your real usage over the last 7 whole UTC days (today included, future-dated events excluded) WITHOUT creating anything: matched events, aggregated units, distinct customers, and a zero-filled per-day series, oldest first. Useful for checking a definition before committing to it. The scan is capped defensively and runs newest-first, so a very high-volume store gets the most recent slice of the window rather than an unbounded scan — the recent days stay complete and the oldest day of the series degrades.",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PreviewMeterApiRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Preview of the candidate definition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeterPreviewApiResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid input parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist"
+          },
+          "422": {
+            "description": "The candidate definition is not satisfiable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsageMeteringErrorApiResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Meters"],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      }
+    },
+    "/v1/meters/{id}": {
+      "get": {
+        "operationId": "getMeter",
+        "x-speakeasy-name-override": "getMeter",
+        "x-speakeasy-group": "meters",
+        "summary": "Retrieve a meter",
+        "description": "Get one meter by ID. Archived meters ARE returned here — a fetch by explicit ID is an intentional lookup.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Meter details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeterApiResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid input parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist"
+          }
+        },
+        "tags": ["Meters"],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "updateMeter",
+        "x-speakeasy-name-override": "updateMeter",
+        "x-speakeasy-group": "meters",
+        "summary": "Update a meter",
+        "description": "Rename a meter and/or revise its definition. A rename is always allowed — the name is a label no aggregate depends on — but it must stay unique within the store (409 meter_name_taken). Definition changes (filter, aggregation, aggregation_property) are only accepted while the meter has processed no usage and has no associated purchase; otherwise the request is rejected with 409, because editing the definition would silently rewrite what already-recorded usage means. Send aggregation_property as null to clear it; omit it to leave it unchanged.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMeterApiRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Meter updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeterApiResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid input parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist"
+          },
+          "409": {
+            "description": "The name is already taken, or the definition can no longer be edited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsageMeteringErrorApiResponseDto"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The revised definition is not satisfiable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsageMeteringErrorApiResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Meters"],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      }
+    },
+    "/v1/meters/{id}/preview": {
+      "post": {
+        "operationId": "previewExistingMeter",
+        "x-speakeasy-name-override": "previewExistingMeter",
+        "x-speakeasy-group": "meters",
+        "summary": "Preview an existing meter",
+        "description": "Dry-run an existing meter against your real usage over the last 7 whole UTC days (today included, future-dated events excluded). Same shape as the unsaved-definition preview; nothing is written.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Preview of the meter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeterPreviewApiResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid input parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist"
+          }
+        },
+        "tags": ["Meters"],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      }
+    },
+    "/v1/meters/{id}/consumed": {
+      "get": {
+        "operationId": "getMeterConsumedUnits",
+        "x-speakeasy-name-override": "getConsumedUnits",
+        "x-speakeasy-group": "meters",
+        "summary": "Get consumed units for a customer",
+        "description": "How many units a customer has consumed through this meter in a billing period, alongside the period's boundaries. Without `at`, this is an O(1) read of the current period's projection — the number billing uses. With `at`, the units are replayed from the raw events as of that instant, within the billing period containing it, which is the right call for reconstructing what a customer had consumed at a past moment (an invoice date, a support question).",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "customer_id",
+            "required": true,
+            "in": "query",
+            "description": "The customer whose consumption is read",
+            "schema": {
+              "example": "cust_abc123",
+              "type": "string"
+            }
+          },
+          {
+            "name": "at",
+            "required": false,
+            "in": "query",
+            "description": "ISO 8601 instant. When present, the consumption is replayed from the raw events as of that point in time, within the billing period that contains it. When absent, the current billing period’s projected total is returned.",
+            "schema": {
+              "example": "2026-08-15T00:00:00.000Z",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Consumed units for the period",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeterConsumedUnitsApiResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid input parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist"
+          }
+        },
+        "tags": ["Meters"],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      }
+    },
+    "/v1/meters/{id}/archive": {
+      "post": {
+        "operationId": "archiveMeter",
+        "x-speakeasy-name-override": "archiveMeter",
+        "x-speakeasy-group": "meters",
+        "summary": "Archive a meter",
+        "description": "Archive a meter: it leaves the default listing and stops accruing new usage, but is never deleted, so the usage it already recorded stays meaningful. Idempotent — archiving an archived meter returns it unchanged.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Meter archived",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeterApiResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid input parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist"
+          },
+          "409": {
+            "description": "The meter is priced on a product you are still selling — remove the usage charge (or archive the product) first",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsageMeteringErrorApiResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Meters"],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      }
+    },
+    "/v1/meters/{id}/unarchive": {
+      "post": {
+        "operationId": "unarchiveMeter",
+        "x-speakeasy-name-override": "unarchiveMeter",
+        "x-speakeasy-group": "meters",
+        "summary": "Unarchive a meter",
+        "description": "Restore an archived meter: it returns to the default listing and resumes accruing usage from the next matching event. Idempotent — unarchiving an active meter returns it unchanged. No gate applies and none is needed: archiving never released the meter's name, because per-store name uniqueness counts archived meters (which is why creating a meter with an archived meter's name returns 409 `meter_name_taken` with `details.archived_holder`), and it never altered the definition. Usage ingested while the meter was archived is retained as raw events and IS folded back in for any period still inside the late-event window, since a period is recomputed in full rather than incrementally — so units for an open period can increase by more than the usage seen since the unarchive. Finalized periods are not moved.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Meter unarchived (or already active)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeterApiResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid input parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist"
+          }
+        },
+        "tags": ["Meters"],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      }
+    },
+    "/v1/events/ingest": {
+      "post": {
+        "operationId": "ingestUsageEvents",
+        "x-speakeasy-name-override": "ingestEvents",
+        "x-speakeasy-group": "events",
+        "summary": "Ingest usage events",
+        "description": "Send up to 100 usage events in one request.\n\nReturns **202 Accepted** with the number of events accepted and the `event_id` of each, in submission order — your own value where you supplied one, a generated value where you did not.\n\nIngestion is **idempotent on (store, event_id)**: re-sending an event_id this store has already accepted records nothing and is not an error, so **retrying a whole batch after a timeout or a partial failure is always safe**. Duplicates are deduplicated silently rather than reported — a replayed batch returns the same 202 and the same `event_ids` as the original. Supply your own `event_id` to get that guarantee; when you omit it we generate one, which makes the event unique and a retry a second event.\n\nYour `event_id` is **stored trimmed**, and the `event_ids` we return are the stored values — so `\" abc \"` is recorded and echoed as `\"abc\"`, which is what `reference=` on `GET /v1/events` matches. Two entries in one batch whose ids differ only by surrounding whitespace are therefore the **same** event: the second is deduplicated against the first, both are reported accepted, and both carry the same id. An `event_id` that is entirely whitespace is rejected like an empty one (422) rather than being replaced with a generated id — an unusable key is worth telling you about.\n\nThe **whole batch is validated before anything is accepted**: if any event is invalid the request is rejected with 422 and `param` pointing at the offending event (e.g. `events[3].customer_id`), and no event in the batch is ingested.\n\nBilling attribution uses the `timestamp` you supply (defaulting to the time of ingestion), bounded by the late-event window: once a billing period has been closed for longer than that window, an event arriving for it is still stored durably but is no longer folded into that period's totals.\n\n**202, not 200, is deliberate.** It means the batch has been accepted for processing, not that every downstream effect has completed: aggregation into meter totals is already asynchronous today, and the transport behind this endpoint may become queue-backed. A queue producer cannot know how many rows a consumer will ultimately insert, so this response reports acceptance rather than an insert/duplicate split — the contract you code against stays identical when that lands.",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IngestUsageEventsApiRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Batch accepted for processing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IngestUsageEventsApiResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid input parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist"
+          },
+          "422": {
+            "description": "An event in the batch is invalid — nothing was ingested; `param` identifies the event and field",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsageMeteringErrorApiResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Events"],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      }
+    },
+    "/v1/events/preview": {
+      "post": {
+        "operationId": "previewUsageEvents",
+        "x-speakeasy-name-override": "previewEvents",
+        "x-speakeasy-group": "events",
+        "summary": "Preview usage events",
+        "description": "Dry-run of `POST /v1/events/ingest`: send the exact batch you would ingest and get a per-event report of what would happen — **nothing is stored**.\n\nFor each event: whether it passes validation (invalid events are reported in place instead of rejecting the batch, unlike ingest), the `event_id` it would be recorded under, whether it would deduplicate against an already-stored event or an earlier entry of the same batch (advisory — another writer can land between preview and ingest), the active meters that would consume it, and the same warnings ingest returns.\n\nUsage events are immutable once ingested, so preview is the way to gain first-run confidence: wire your integration against preview, check `valid` is true and every event matches the meters you expect, then switch the path to `ingest`.",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IngestUsageEventsApiRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Per-event report; nothing was stored",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreviewUsageEventsApiResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid input parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist"
+          },
+          "422": {
+            "description": "The request envelope itself is malformed (e.g. no events array, or more than the batch maximum)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsageMeteringErrorApiResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Events"],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      }
+    },
+    "/v1/events": {
+      "get": {
+        "operationId": "listUsageEvents",
+        "x-speakeasy-pagination": {
+          "type": "cursor",
+          "inputs": [
+            {
+              "name": "starting_after",
+              "in": "parameters",
+              "type": "cursor"
+            },
+            {
+              "name": "limit",
+              "in": "parameters",
+              "type": "limit"
+            }
+          ],
+          "outputs": {
+            "nextCursor": "$.data[-1].id",
+            "results": "$.data"
+          }
+        },
+        "x-speakeasy-name-override": "listEvents",
+        "x-speakeasy-group": "events",
+        "summary": "List usage events",
+        "description": "List the usage events your store has ingested, oldest first in ingestion order, as a forward cursor page. Filters compose: by meter (resolved to the meter's event name), by customer, and by `reference` (the `event_id` you supplied). Events are returned raw — a meter's filter clauses are not applied. Usage events are append-only, so pagination is forward-only and there is no `ending_before`.",
+        "parameters": [
+          {
+            "name": "meter_id",
+            "required": false,
+            "in": "query",
+            "description": "Only return events consumed by this meter (resolved to the meter’s event name)",
+            "schema": {
+              "example": "mtr_abc123",
+              "type": "string"
+            }
+          },
+          {
+            "name": "customer_id",
+            "required": false,
+            "in": "query",
+            "description": "Only return events for this customer",
+            "schema": {
+              "example": "cust_abc123",
+              "type": "string"
+            }
+          },
+          {
+            "name": "reference",
+            "required": false,
+            "in": "query",
+            "description": "Only return the event carrying this `event_id`",
+            "schema": {
+              "example": "order-1234",
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Maximum number of events to return",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10,
+              "type": "number"
+            }
+          },
+          {
+            "name": "starting_after",
+            "required": false,
+            "in": "query",
+            "description": "Cursor for forward pagination — event ID to start after. Usage events are append-only and paginate forward only, so there is deliberately no `ending_before`.",
+            "schema": {
+              "example": "uev_abc123",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated list of usage events",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsageEventListApiResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid input parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist"
+          }
+        },
+        "tags": ["Events"],
         "security": [
           {
             "ApiKey": []
@@ -3329,6 +4332,444 @@
           }
         ]
       }
+    },
+    "/v1/webhooks": {
+      "get": {
+        "operationId": "listWebhooks",
+        "x-speakeasy-pagination": {
+          "type": "offsetLimit",
+          "inputs": [
+            {
+              "name": "page_number",
+              "in": "parameters",
+              "type": "page"
+            },
+            {
+              "name": "page_size",
+              "in": "parameters",
+              "type": "limit"
+            }
+          ],
+          "outputs": {
+            "numPages": "$.pagination.total_pages",
+            "results": "$.items"
+          }
+        },
+        "x-speakeasy-name-override": "list",
+        "summary": "List webhook endpoints",
+        "description": "List the webhook endpoints configured for your store.",
+        "parameters": [
+          {
+            "name": "page_number",
+            "required": false,
+            "in": "query",
+            "description": "The page number for pagination.",
+            "schema": {
+              "default": 1,
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "page_size",
+            "required": false,
+            "in": "query",
+            "description": "The number of items per page.",
+            "schema": {
+              "default": 10,
+              "example": 10,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the list of webhook endpoints",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebhookListEntity"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid input parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist"
+          }
+        },
+        "tags": ["Webhooks"],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "createWebhook",
+        "x-speakeasy-name-override": "create",
+        "summary": "Create a webhook endpoint",
+        "description": "Register a URL to receive event deliveries. The response includes the signing secret; store it, it is the only time the create call returns it.",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "description": "Webhook endpoint creation payload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateWebhookRequestEntity"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully created the webhook endpoint",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebhookEntity"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid input parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist"
+          }
+        },
+        "tags": ["Webhooks"],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      }
+    },
+    "/v1/webhooks/{id}": {
+      "get": {
+        "operationId": "getWebhook",
+        "x-speakeasy-name-override": "get",
+        "summary": "Retrieve a webhook endpoint",
+        "description": "Retrieve a webhook endpoint by ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "The webhook ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the webhook endpoint",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebhookEntity"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid input parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist"
+          }
+        },
+        "tags": ["Webhooks"],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "updateWebhook",
+        "x-speakeasy-name-override": "update",
+        "summary": "Update a webhook endpoint",
+        "description": "Update the URL, name, status or event filter of a webhook endpoint. Only supplied fields change.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "The webhook ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Webhook endpoint update payload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateWebhookRequestEntity"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated the webhook endpoint",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebhookEntity"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid input parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist"
+          }
+        },
+        "tags": ["Webhooks"],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "deleteWebhook",
+        "x-speakeasy-name-override": "delete",
+        "summary": "Delete a webhook endpoint",
+        "description": "Permanently delete a webhook endpoint and its delivery history. To pause deliveries without losing the configuration, update the status to disabled instead.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "The webhook ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully deleted the webhook endpoint",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebhookEntity"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid input parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist"
+          }
+        },
+        "tags": ["Webhooks"],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      }
+    },
+    "/v1/webhooks/{id}/secret": {
+      "get": {
+        "operationId": "getWebhookSecret",
+        "x-speakeasy-name-override": "getSecret",
+        "summary": "Retrieve a webhook signing secret",
+        "description": "Retrieve the signing secret for a webhook endpoint, used to verify delivery signatures.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "The webhook ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the webhook signing secret",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebhookSecretEntity"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid input parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist"
+          }
+        },
+        "tags": ["Webhooks"],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      }
+    },
+    "/v1/webhooks/{id}/events/pending": {
+      "get": {
+        "operationId": "listPendingWebhookEvents",
+        "x-speakeasy-name-override": "listPendingEvents",
+        "summary": "List pending events for a CLI webhook endpoint",
+        "description": "Events recorded for a `cli` delivery-mode endpoint that have not been acknowledged yet, oldest first. Each item carries the exact request body and headers an HTTP delivery would send. Forward them to your local server, then acknowledge each event with the status it returned. Only valid for endpoints created with `delivery_mode: cli`.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "The webhook ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Maximum number of pending events to return.",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the pending events",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebhookPendingEventListEntity"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid input parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist"
+          }
+        },
+        "tags": ["Webhooks"],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      }
+    },
+    "/v1/webhooks/{id}/events/{event_id}/ack": {
+      "post": {
+        "operationId": "acknowledgeWebhookEvent",
+        "x-speakeasy-name-override": "acknowledgeEvent",
+        "summary": "Acknowledge a CLI webhook event",
+        "description": "Report the status your local server returned for an event from the pending feed. Any 2xx marks the delivery successful; anything else records a failure. Acknowledged events leave the pending feed and appear in the dashboard event log with the reported result. Only valid for endpoints created with `delivery_mode: cli`.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "The webhook ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "event_id",
+            "required": true,
+            "in": "path",
+            "description": "The event ID from the pending feed",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "The local delivery result",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcknowledgeWebhookEventRequestEntity"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully acknowledged the event",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebhookEventAckEntity"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid input parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist"
+          }
+        },
+        "tags": ["Webhooks"],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      }
     }
   },
   "info": {
@@ -3384,6 +4825,29 @@
         "description": "The type of the feature: `custom` (private note), `file` (downloadable files), `licenseKey` (license key), or `customerCredits` (customer credit grant).",
         "enum": ["custom", "file", "licenseKey", "customerCredits"]
       },
+      "CustomerCreditsFeatureEntity": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "string",
+            "description": "The number of credits to grant. String to preserve BigInt precision.",
+            "example": "100"
+          },
+          "unit_label": {
+            "type": "string",
+            "description": "Optional label for the credit unit (e.g. \"tokens\", \"credits\").",
+            "example": "tokens",
+            "nullable": true
+          },
+          "bucket_name": {
+            "type": "string",
+            "description": "The customer-credit bucket this grant funds — the `name` of the customer's credit account. Set it to a meter bucket (e.g. \"images\") so the credits fund a per-unit metered price; otherwise they land in `default` and metered usage cannot spend them. Distinct from `unit_label`, which is only a display label. On UPDATE the field is tri-state: OMIT it to leave the stored bucket unchanged, send `null` to clear it to the shared `default` wallet, or send a name to set it. On CREATE, omitted or null both mean `default`. A present-but-blank value is rejected.",
+            "example": "images",
+            "nullable": true
+          }
+        },
+        "required": ["amount"]
+      },
       "FeatureEntity": {
         "type": "object",
         "properties": {
@@ -3400,9 +4864,91 @@
             "type": "string",
             "description": "A brief description of the feature.",
             "example": "Access to premium course materials."
+          },
+          "customer_credits": {
+            "description": "The credit grant behind a `customerCredits` feature. Absent for other feature types.",
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CustomerCreditsFeatureEntity"
+              }
+            ]
           }
         },
         "required": ["id", "type", "description"]
+      },
+      "UsagePriceSettlementMode": {
+        "type": "string",
+        "description": "How the charge settles: `prepaid` debits the customer credit account as usage aggregates; `postpaid` bills at renewal where the store supports it.",
+        "enum": ["prepaid", "postpaid"]
+      },
+      "UsagePriceTargetAccount": {
+        "type": "string",
+        "description": "Credit bucket a prepaid charge debits: `shared` (the customer default wallet) or `per_unit` (a bucket named after the meter unit label, or `target_account_name`). Defaults to `shared`.",
+        "enum": ["shared", "per_unit"]
+      },
+      "UsagePriceTrialUsageMode": {
+        "type": "string",
+        "description": "Usage metered during a free trial: `free` is not charged, `accrue` is charged when the trial converts. Defaults to `free`.",
+        "enum": ["free", "accrue"]
+      },
+      "UsagePriceEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of the usage price.",
+            "example": "price_abc123"
+          },
+          "meter_id": {
+            "type": "string",
+            "description": "The meter this charge bills.",
+            "example": "mtr_abc123"
+          },
+          "unit_price": {
+            "type": "number",
+            "description": "Tax-exclusive price per SINGLE meter unit, in minor units of the product currency. \"$20 per 1,000,000 tokens\" is 0.002 (2000 cents / 1,000,000). Fractional values are allowed.",
+            "example": 0.002
+          },
+          "free_allowance": {
+            "type": "integer",
+            "description": "Meter units free per billing period, per customer, before the charge applies.",
+            "example": 1000
+          },
+          "cap": {
+            "type": "integer",
+            "description": "Optional ceiling on the charge per billing period, in minor units. Null means uncapped.",
+            "example": 50000,
+            "nullable": true
+          },
+          "settlement_mode": {
+            "example": "prepaid",
+            "$ref": "#/components/schemas/UsagePriceSettlementMode"
+          },
+          "target_account": {
+            "example": "per_unit",
+            "$ref": "#/components/schemas/UsagePriceTargetAccount"
+          },
+          "target_account_name": {
+            "type": "string",
+            "description": "The per-unit bucket this charge debits: the name given on write, or the meter unit label when none was. Null for a `shared` charge.",
+            "example": "images",
+            "nullable": true
+          },
+          "trial_usage_mode": {
+            "example": "free",
+            "$ref": "#/components/schemas/UsagePriceTrialUsageMode"
+          }
+        },
+        "required": [
+          "id",
+          "meter_id",
+          "unit_price",
+          "free_allowance",
+          "settlement_mode",
+          "target_account",
+          "trial_usage_mode"
+        ]
       },
       "ProductBillingType": {
         "type": "string",
@@ -3557,6 +5103,13 @@
               "$ref": "#/components/schemas/FeatureEntity"
             }
           },
+          "usage_prices": {
+            "description": "Metered charges billed on top of the base price, one per meter. Present on recurring products that meter usage.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UsagePriceEntity"
+            }
+          },
           "price": {
             "type": "number",
             "description": "The price of the product in cents. 1000 = $10.00",
@@ -3587,6 +5140,18 @@
             "example": 3,
             "nullable": true
           },
+          "trial_period_days": {
+            "type": "integer",
+            "description": "Length of the trial period in days. A whole number of days, at least 1. Only supported for recurring products. `null` when the product has no trial.",
+            "example": 7,
+            "nullable": true
+          },
+          "trial_price": {
+            "type": "integer",
+            "description": "Amount charged at checkout to start the trial, instead of a free card verification. In cents (100 = $1.00). Requires a trial period and must be at least 100 and lower than `price`; only supported on standard-priced recurring products without pay-what-you-want. `null` for a free trial and for products without a trial.",
+            "example": 100,
+            "nullable": true
+          },
           "status": {
             "example": "active",
             "$ref": "#/components/schemas/ProductStatus"
@@ -3594,6 +5159,11 @@
           "tax_mode": {
             "example": "inclusive",
             "$ref": "#/components/schemas/TaxMode"
+          },
+          "business_net_pricing": {
+            "type": "boolean",
+            "description": "When true, business customers whose valid VAT ID triggers reverse charge pay the price excluding VAT instead of the tax-inclusive price. Only supported for tax-inclusive one-time products; the merchant gives up the VAT portion on those sales. Defaults to false.",
+            "example": false
           },
           "tax_category": {
             "example": "saas",
@@ -3802,6 +5372,89 @@
         },
         "required": ["type", "key", "label"]
       },
+      "UsagePriceRequestEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identifier of an existing usage price to edit in place (update only). Omit to add a new charge.",
+            "example": "price_abc123"
+          },
+          "meter_id": {
+            "type": "string",
+            "description": "The meter this charge bills. Must belong to the same store. One charge per meter per product.",
+            "example": "mtr_abc123"
+          },
+          "unit_price": {
+            "type": "number",
+            "description": "Tax-exclusive price per SINGLE meter unit, in minor units of the product currency. \"$20 per 1,000,000 tokens\" is 0.002 (2000 cents / 1,000,000), not 20. Fractional values are allowed.",
+            "example": 0.002
+          },
+          "free_allowance": {
+            "type": "integer",
+            "description": "Meter units free per billing period, per customer, before the charge applies. Defaults to 0.",
+            "example": 1000
+          },
+          "cap": {
+            "type": "integer",
+            "description": "Optional ceiling on the charge per billing period, in minor units.",
+            "example": 50000,
+            "nullable": true
+          },
+          "settlement_mode": {
+            "example": "prepaid",
+            "$ref": "#/components/schemas/UsagePriceSettlementMode"
+          },
+          "target_account": {
+            "example": "per_unit",
+            "$ref": "#/components/schemas/UsagePriceTargetAccount"
+          },
+          "target_account_name": {
+            "type": "string",
+            "description": "Explicit name for the per-unit bucket. Only meaningful with `target_account: per_unit`; defaults to the meter unit label.",
+            "example": "images",
+            "nullable": true
+          },
+          "trial_usage_mode": {
+            "example": "free",
+            "$ref": "#/components/schemas/UsagePriceTrialUsageMode"
+          }
+        },
+        "required": ["meter_id", "unit_price", "settlement_mode"]
+      },
+      "ProductFeatureRequestType": {
+        "type": "string",
+        "description": "The feature type. Only `customerCredits` can be managed through the API.",
+        "enum": ["customerCredits"]
+      },
+      "ProductFeatureRequestEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identifier of an existing feature to edit in place (update only). Omit to add a new feature.",
+            "example": "feat_abc123"
+          },
+          "type": {
+            "example": "customerCredits",
+            "$ref": "#/components/schemas/ProductFeatureRequestType"
+          },
+          "description": {
+            "type": "string",
+            "description": "A brief description of the feature, shown to the customer.",
+            "example": "500 image credits"
+          },
+          "customer_credits": {
+            "description": "The credit grant this feature carries.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CustomerCreditsFeatureEntity"
+              }
+            ]
+          }
+        },
+        "required": ["type", "description", "customer_credits"]
+      },
       "CreateProductRequestEntity": {
         "type": "object",
         "properties": {
@@ -3856,6 +5509,11 @@
             "example": "inclusive",
             "$ref": "#/components/schemas/TaxMode"
           },
+          "business_net_pricing": {
+            "type": "boolean",
+            "description": "When true, business customers whose valid VAT ID triggers reverse charge pay the price excluding VAT instead of the tax-inclusive price. Only supported for tax-inclusive one-time products; the merchant gives up the VAT portion on those sales. Defaults to false.",
+            "example": false
+          },
           "tax_category": {
             "example": "saas",
             "$ref": "#/components/schemas/TaxCategory"
@@ -3869,6 +5527,16 @@
             "type": "integer",
             "description": "Suggested amount in cents, pre-filled at checkout when pay_what_you_want is enabled. Must be greater than or equal to `price` (the minimum). Ignored when pay_what_you_want is disabled.",
             "example": 1500
+          },
+          "trial_period_days": {
+            "type": "integer",
+            "description": "Length of the trial period in days. A whole number of days, at least 1. Only supported for recurring products. Omit for no trial.",
+            "example": 7
+          },
+          "trial_price": {
+            "type": "integer",
+            "description": "Amount charged at checkout to start the trial, instead of a free card verification. In cents (100 = $1.00). Requires a trial period and must be at least 100 and lower than `price`; only supported on standard-priced recurring products without pay-what-you-want. Omit (or send 0) for a free trial.",
+            "example": 100
           },
           "default_success_url": {
             "type": "string",
@@ -3894,6 +5562,20 @@
             "type": "boolean",
             "description": "Enable abandoned cart recovery for this product",
             "default": false
+          },
+          "usage_prices": {
+            "description": "Metered charges billed on top of the base price, one per meter. Recurring products only.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UsagePriceRequestEntity"
+            }
+          },
+          "features": {
+            "description": "Features granted by purchase. Only `customerCredits` (a credit grant into one of the customer credit buckets) can be managed through the API.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductFeatureRequestEntity"
+            }
           }
         },
         "required": ["name", "description", "price", "currency", "billing_type"]
@@ -3952,6 +5634,23 @@
             "example": "inclusive",
             "$ref": "#/components/schemas/TaxMode"
           },
+          "business_net_pricing": {
+            "type": "boolean",
+            "description": "When true, business customers whose valid VAT ID triggers reverse charge pay the price excluding VAT instead of the tax-inclusive price. Only supported for tax-inclusive one-time products; the merchant gives up the VAT portion on those sales. Defaults to false. Omit to leave unchanged.",
+            "example": false
+          },
+          "trial_period_days": {
+            "type": "integer",
+            "description": "Length of the trial period in days. A whole number of days, at least 1. Only supported for recurring products. Omit to leave the trial unchanged; send `null` to remove it (a paid trial's price is cleared with it). Switching `billing_type` to `onetime` removes the trial as well.",
+            "example": 7,
+            "nullable": true
+          },
+          "trial_price": {
+            "type": "integer",
+            "description": "Amount charged at checkout to start the trial, instead of a free card verification. In cents (100 = $1.00). Requires a trial period and must be at least 100 and lower than `price`; only supported on standard-priced recurring products without pay-what-you-want. Omit to leave unchanged; send `null` or 0 to make the trial free.",
+            "example": 100,
+            "nullable": true
+          },
           "pay_what_you_want": {
             "type": "boolean",
             "description": "Enable pay-what-you-want pricing (one-time only)."
@@ -3959,6 +5658,20 @@
           "suggested_price": {
             "type": "integer",
             "description": "Suggested amount in cents when pay_what_you_want is enabled. Omit to leave unchanged; send `null` to clear it."
+          },
+          "usage_prices": {
+            "description": "Metered charges billed on top of the base price, one per meter. Recurring products only. The array is the complete set after the update: omit (or send `null`) to leave charges untouched, send `[]` to remove all, include `id` to edit a charge in place.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UsagePriceRequestEntity"
+            }
+          },
+          "features": {
+            "description": "Features granted by purchase. Only `customerCredits` (a credit grant into one of the customer credit buckets) can be managed through the API. The array is the complete set of credit features after the update: omit (or send `null`) to leave features untouched, include `id` to edit in place; credit features missing from the array are removed.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductFeatureRequestEntity"
+            }
           }
         }
       },
@@ -4001,6 +5714,12 @@
             "description": "The ISO 3166-1 alpha-2 country code for the customer.",
             "example": "US",
             "pattern": "^[A-Z]{2}$",
+            "nullable": true
+          },
+          "external_id": {
+            "type": "string",
+            "description": "Your own id for this customer, when you have set one — usage ingestion resolves `external_customer_id` against it.",
+            "example": "user-42",
             "nullable": true
           },
           "created_at": {
@@ -4699,6 +6418,11 @@
               "key": "value"
             },
             "additionalProperties": true
+          },
+          "external_id": {
+            "type": "string",
+            "description": "Your own id for this customer. Unique per store; usage ingestion resolves `external_customer_id` against it. Trimmed; letters, digits, `_` and `-` only; at most 255 characters.",
+            "example": "user-42"
           }
         },
         "required": ["email", "name"]
@@ -4716,6 +6440,11 @@
             "description": "The full name of the customer.",
             "example": "John Doe"
           },
+          "email": {
+            "type": "string",
+            "description": "The email address of the customer. Must be unique within the store; changing it to an email already used by another customer returns 409. Stored lowercased. Omit to leave unchanged.",
+            "example": "john@example.com"
+          },
           "metadata": {
             "type": "object",
             "description": "Additional metadata for the customer. Omit to leave unchanged; send `null` to clear it.",
@@ -4723,6 +6452,12 @@
               "key": "value"
             },
             "additionalProperties": true
+          },
+          "external_id": {
+            "type": "string",
+            "description": "Your own id for this customer. Unique per store; usage ingestion resolves `external_customer_id` against it. Omit to leave unchanged; send `null` to clear it. Trimmed; letters, digits, `_` and `-` only; at most 255 characters.",
+            "example": "user-42",
+            "nullable": true
           }
         },
         "required": ["customer_id"]
@@ -4863,29 +6598,6 @@
           }
         },
         "required": ["files"]
-      },
-      "CustomerCreditsFeatureEntity": {
-        "type": "object",
-        "properties": {
-          "amount": {
-            "type": "string",
-            "description": "The number of credits to grant. String to preserve BigInt precision.",
-            "example": "100"
-          },
-          "unit_label": {
-            "type": "string",
-            "description": "Optional label for the credit unit (e.g. \"tokens\", \"credits\").",
-            "example": "tokens",
-            "nullable": true
-          },
-          "bucket_name": {
-            "type": "string",
-            "description": "The customer-credit bucket this grant funds — the `name` of the customer's credit account. Set it to a meter bucket (e.g. \"images\") so the credits fund a per-unit metered price; otherwise they land in `default` and metered usage cannot spend them. Distinct from `unit_label`, which is only a display label. On UPDATE the field is tri-state: OMIT it to leave the stored bucket unchanged, send `null` to clear it to the shared `default` wallet, or send a name to set it. On CREATE, omitted or null both mean `default`. A present-but-blank value is rejected.",
-            "example": "images",
-            "nullable": true
-          }
-        },
-        "required": ["amount"]
       },
       "ProductFeatureEntity": {
         "type": "object",
@@ -5054,10 +6766,11 @@
           "feature": {
             "description": "DEPRECATED: Use `license_keys` instead. Features issued for the order.",
             "deprecated": true,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProductFeatureEntity"
-            }
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProductFeatureEntity"
+              }
+            ]
           },
           "metadata": {
             "type": "object",
@@ -5700,9 +7413,10 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "Human-readable name for the account",
+            "description": "Human-readable name for the account (bucket). Unique per customer, compared case-insensitively: `Tokens` and `tokens` are the same account. Surrounding whitespace is trimmed; the spelling you send is preserved on read. Max 100 characters.",
             "example": "default",
-            "default": "default"
+            "default": "default",
+            "maxLength": 100
           },
           "customer_id": {
             "type": "string",
@@ -5774,6 +7488,59 @@
           "created_at",
           "updated_at"
         ]
+      },
+      "CustomerCreditsErrorDetailDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Error category",
+            "enum": [
+              "invalid_request_error",
+              "api_error",
+              "authentication_error",
+              "rate_limit_error"
+            ],
+            "example": "invalid_request_error"
+          },
+          "code": {
+            "type": "string",
+            "description": "Machine-readable error code",
+            "example": "unbalanced_transaction",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable error message",
+            "example": "Total debits must equal total credits"
+          },
+          "param": {
+            "type": "string",
+            "description": "The parameter related to the error, if applicable",
+            "example": "entries",
+            "nullable": true
+          },
+          "request_id": {
+            "type": "string",
+            "description": "Unique request identifier for support",
+            "example": "req_abc123def456"
+          }
+        },
+        "required": ["type", "code", "message", "request_id"]
+      },
+      "CustomerCreditsErrorResponseDto": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Error details",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CustomerCreditsErrorDetailDto"
+              }
+            ]
+          }
+        },
+        "required": ["error"]
       },
       "AccountListResponseDto": {
         "type": "object",
@@ -5873,59 +7640,6 @@
         },
         "required": ["object", "data", "has_more"]
       },
-      "CustomerCreditsErrorDetailDto": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "description": "Error category",
-            "enum": [
-              "invalid_request_error",
-              "api_error",
-              "authentication_error",
-              "rate_limit_error"
-            ],
-            "example": "invalid_request_error"
-          },
-          "code": {
-            "type": "string",
-            "description": "Machine-readable error code",
-            "example": "unbalanced_transaction",
-            "nullable": true
-          },
-          "message": {
-            "type": "string",
-            "description": "Human-readable error message",
-            "example": "Total debits must equal total credits"
-          },
-          "param": {
-            "type": "string",
-            "description": "The parameter related to the error, if applicable",
-            "example": "entries",
-            "nullable": true
-          },
-          "request_id": {
-            "type": "string",
-            "description": "Unique request identifier for support",
-            "example": "req_abc123def456"
-          }
-        },
-        "required": ["type", "code", "message", "request_id"]
-      },
-      "CustomerCreditsErrorResponseDto": {
-        "type": "object",
-        "properties": {
-          "error": {
-            "description": "Error details",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/CustomerCreditsErrorDetailDto"
-              }
-            ]
-          }
-        },
-        "required": ["error"]
-      },
       "CreditDebitRequestDto": {
         "type": "object",
         "properties": {
@@ -5998,6 +7712,811 @@
           }
         },
         "required": ["transaction_id"]
+      },
+      "EntryInputDto": {
+        "type": "object",
+        "properties": {
+          "account_id": {
+            "type": "string",
+            "description": "The account ID for this entry",
+            "example": "cca_abc123"
+          },
+          "side": {
+            "type": "string",
+            "description": "Debit or credit side",
+            "enum": ["debit", "credit"]
+          },
+          "amount": {
+            "type": "string",
+            "description": "Entry amount (string to support large numbers)",
+            "example": "1000"
+          }
+        },
+        "required": ["account_id", "side", "amount"]
+      },
+      "PostTransactionDto": {
+        "type": "object",
+        "properties": {
+          "reference": {
+            "type": "string",
+            "description": "Your reference ID to link this transaction to an event in your system",
+            "example": "order_xyz"
+          },
+          "idempotency_key": {
+            "type": "string",
+            "description": "Idempotency key to prevent duplicate transactions",
+            "example": "idem_abc123"
+          },
+          "entries": {
+            "description": "Array of entries. Must have at least 2 entries and the total debits must equal total credits.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntryInputDto"
+            }
+          }
+        },
+        "required": ["reference", "idempotency_key", "entries"]
+      },
+      "TransactionListResponseDto": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "description": "Object type",
+            "example": "list"
+          },
+          "data": {
+            "description": "Array of transactions",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TransactionResponseDto"
+            }
+          },
+          "has_more": {
+            "type": "boolean",
+            "description": "Whether more items exist beyond this page"
+          }
+        },
+        "required": ["object", "data", "has_more"]
+      },
+      "FilterClauseApiRequestDto": {
+        "type": "object",
+        "properties": {
+          "property": {
+            "type": "string",
+            "description": "Event property to test — a key of the event's `properties` bag, unprefixed.",
+            "example": "tier"
+          },
+          "operator": {
+            "type": "string",
+            "description": "Comparison operator",
+            "enum": ["equals", "not_equals", "gt", "gte", "lt", "lte", "contains", "not_contains"],
+            "example": "equals"
+          },
+          "value": {
+            "description": "Value to compare against. Auto-parsed (number → boolean → string) on both sides before comparison, so \"10\" and 10 behave the same — which is why a raw number or boolean is accepted here as well as a string.",
+            "example": "pro",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "boolean"
+              }
+            ]
+          }
+        },
+        "required": ["property", "operator", "value"]
+      },
+      "MeterFilterApiRequestDto": {
+        "type": "object",
+        "properties": {
+          "conjunction": {
+            "type": "string",
+            "description": "How the clauses combine",
+            "enum": ["and", "or"],
+            "example": "and"
+          },
+          "clauses": {
+            "description": "Filter clauses. An empty list means the meter counts every event with the given event name.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FilterClauseApiRequestDto"
+            }
+          }
+        },
+        "required": ["conjunction", "clauses"]
+      },
+      "CreateMeterApiRequestDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Human-readable meter name, unique within your store",
+            "example": "Image generations"
+          },
+          "event_name": {
+            "type": "string",
+            "description": "The usage event name this meter consumes",
+            "example": "image.generated"
+          },
+          "aggregation": {
+            "type": "string",
+            "description": "Aggregation applied to the matching events",
+            "enum": ["count", "sum", "average", "min", "max", "unique"],
+            "example": "sum"
+          },
+          "aggregation_property": {
+            "type": "string",
+            "description": "Event property the aggregation reduces. Required for every aggregation except \"count\", which ignores it.",
+            "example": "tokens"
+          },
+          "filter": {
+            "description": "Optional filter narrowing which events the meter counts. Omitted means \"count every event with this event name\".",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MeterFilterApiRequestDto"
+              }
+            ]
+          },
+          "unit_label": {
+            "type": "string",
+            "description": "Display unit for the metered quantity. Also names the customer-credits bucket the meter settles into.",
+            "example": "images"
+          }
+        },
+        "required": ["name", "event_name", "aggregation", "unit_label"]
+      },
+      "FilterClauseApiResponseDto": {
+        "type": "object",
+        "properties": {
+          "property": {
+            "type": "string",
+            "description": "Event property tested",
+            "example": "tier"
+          },
+          "operator": {
+            "type": "string",
+            "description": "Comparison operator",
+            "example": "equals"
+          },
+          "value": {
+            "description": "Value compared against, as stored after parsing",
+            "example": "pro",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "boolean"
+              }
+            ]
+          }
+        },
+        "required": ["property", "operator", "value"]
+      },
+      "MeterFilterApiResponseDto": {
+        "type": "object",
+        "properties": {
+          "conjunction": {
+            "type": "string",
+            "description": "How the clauses combine",
+            "enum": ["and", "or"],
+            "example": "and"
+          },
+          "clauses": {
+            "description": "Filter clauses; empty means the meter counts every event",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FilterClauseApiResponseDto"
+            }
+          }
+        },
+        "required": ["conjunction", "clauses"]
+      },
+      "MeterApiResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Meter ID",
+            "example": "mtr_abc123"
+          },
+          "store_id": {
+            "type": "string",
+            "description": "Store ID",
+            "example": "sto_abc123"
+          },
+          "name": {
+            "type": "string",
+            "description": "Meter name",
+            "example": "Image generations"
+          },
+          "event_name": {
+            "type": "string",
+            "description": "Usage event name the meter consumes",
+            "example": "image.generated"
+          },
+          "aggregation": {
+            "type": "string",
+            "description": "Aggregation applied to matching events",
+            "enum": ["count", "sum", "average", "min", "max", "unique"],
+            "example": "sum"
+          },
+          "aggregation_property": {
+            "type": "string",
+            "description": "Property the aggregation reduces; null for \"count\"",
+            "nullable": true,
+            "example": "tokens"
+          },
+          "filter": {
+            "description": "The meter filter; always present (empty clauses = match all)",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MeterFilterApiResponseDto"
+              }
+            ]
+          },
+          "unit_label": {
+            "type": "string",
+            "description": "Display unit",
+            "example": "images"
+          },
+          "status": {
+            "type": "string",
+            "description": "Whether the meter is active or archived",
+            "enum": ["active", "archived"],
+            "example": "active"
+          },
+          "created_at": {
+            "type": "string",
+            "description": "Creation timestamp (ISO 8601)"
+          },
+          "updated_at": {
+            "type": "string",
+            "description": "Last update timestamp (ISO 8601)"
+          }
+        },
+        "required": [
+          "id",
+          "store_id",
+          "name",
+          "event_name",
+          "aggregation",
+          "aggregation_property",
+          "filter",
+          "unit_label",
+          "status",
+          "created_at",
+          "updated_at"
+        ]
+      },
+      "UsageMeteringErrorDetailApiDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Error category",
+            "enum": [
+              "invalid_request_error",
+              "api_error",
+              "authentication_error",
+              "rate_limit_error"
+            ],
+            "example": "invalid_request_error"
+          },
+          "code": {
+            "type": "string",
+            "description": "Machine-readable error code",
+            "example": "meter_name_taken",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable error message",
+            "example": "A meter named \"Image generations\" already exists in this store"
+          },
+          "param": {
+            "type": "string",
+            "description": "The parameter related to the error, if applicable",
+            "example": "events[3].customer_id",
+            "nullable": true
+          },
+          "details": {
+            "type": "object",
+            "description": "Structured, machine-readable context for errors that support an action, omitted entirely when there is none. Currently emitted for `meter_name_taken` when the colliding name is held by an ARCHIVED meter: `archived_holder` is true and `archived_holder_id` is that meter, which can be restored via POST /v1/meters/{id}/unarchive. Additive — treat unknown keys as ignorable.",
+            "example": {
+              "archived_holder": true,
+              "archived_holder_id": "mtr_abc123"
+            },
+            "additionalProperties": true
+          },
+          "request_id": {
+            "type": "string",
+            "description": "Unique request identifier for support",
+            "example": "req_abc123def456"
+          }
+        },
+        "required": ["type", "code", "message", "request_id"]
+      },
+      "UsageMeteringErrorApiResponseDto": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Error details",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UsageMeteringErrorDetailApiDto"
+              }
+            ]
+          }
+        },
+        "required": ["error"]
+      },
+      "MeterListApiResponseDto": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "description": "Object type",
+            "example": "list"
+          },
+          "data": {
+            "description": "Array of meters",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MeterApiResponseDto"
+            }
+          },
+          "has_more": {
+            "type": "boolean",
+            "description": "Whether more items exist beyond this page"
+          }
+        },
+        "required": ["object", "data", "has_more"]
+      },
+      "PreviewMeterApiRequestDto": {
+        "type": "object",
+        "properties": {
+          "event_name": {
+            "type": "string",
+            "description": "The usage event name the candidate meter would consume",
+            "example": "image.generated"
+          },
+          "aggregation": {
+            "type": "string",
+            "description": "Aggregation to dry-run",
+            "enum": ["count", "sum", "average", "min", "max", "unique"],
+            "example": "count"
+          },
+          "aggregation_property": {
+            "type": "string",
+            "description": "Event property the aggregation reduces. Required for every aggregation except \"count\".",
+            "example": "tokens"
+          },
+          "filter": {
+            "description": "Optional filter to dry-run alongside the aggregation",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MeterFilterApiRequestDto"
+              }
+            ]
+          },
+          "unit_label": {
+            "type": "string",
+            "description": "Display unit for the preview. Cosmetic (nothing is persisted); defaults to \"units\".",
+            "example": "images",
+            "default": "units"
+          }
+        },
+        "required": ["event_name", "aggregation"]
+      },
+      "MeterPreviewDailyApiResponseDto": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "UTC calendar day",
+            "example": "2026-08-16"
+          },
+          "event_count": {
+            "type": "number",
+            "description": "Matching events on this day",
+            "example": 42
+          },
+          "value": {
+            "type": "string",
+            "description": "The aggregation folded over this day alone, as a string for BigInt safety",
+            "example": "1280"
+          }
+        },
+        "required": ["date", "event_count", "value"]
+      },
+      "MeterPreviewApiResponseDto": {
+        "type": "object",
+        "properties": {
+          "matched_events": {
+            "type": "number",
+            "description": "Events the meter would count over the preview window",
+            "example": 137
+          },
+          "units": {
+            "type": "string",
+            "description": "Aggregated units over the whole window, as a string for BigInt safety",
+            "example": "4820"
+          },
+          "distinct_customers": {
+            "type": "number",
+            "description": "Distinct customers among the matching events",
+            "example": 12
+          },
+          "daily": {
+            "description": "The last 7 UTC days (today included), oldest first and zero-filled",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MeterPreviewDailyApiResponseDto"
+            }
+          }
+        },
+        "required": ["matched_events", "units", "distinct_customers", "daily"]
+      },
+      "UpdateMeterApiRequestDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "New meter name. Renaming is allowed even after the meter has processed usage — the name is a label, not part of the definition. Must stay unique within the store. Omit to leave unchanged; `null` is rejected.",
+            "example": "Image generations (v2)"
+          },
+          "aggregation": {
+            "type": "string",
+            "description": "New aggregation. Part of the meter definition, so it is only editable while the meter has processed no usage and has no associated purchase. Omit to leave unchanged; `null` is rejected.",
+            "enum": ["count", "sum", "average", "min", "max", "unique"],
+            "example": "sum"
+          },
+          "aggregation_property": {
+            "type": "string",
+            "description": "New aggregation property. Omit to leave unchanged; send `null` to clear it (only valid when the resulting aggregation is \"count\").",
+            "example": "tokens",
+            "nullable": true
+          },
+          "filter": {
+            "description": "New filter. Part of the meter definition (see `aggregation`). Omit to leave unchanged; `null` is rejected — to remove a filter, send one with an empty `clauses` array.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MeterFilterApiRequestDto"
+              }
+            ]
+          }
+        }
+      },
+      "MeterConsumedUnitsApiResponseDto": {
+        "type": "object",
+        "properties": {
+          "meter_id": {
+            "type": "string",
+            "description": "Meter ID",
+            "example": "mtr_abc123"
+          },
+          "customer_id": {
+            "type": "string",
+            "description": "Customer ID",
+            "example": "cust_abc123"
+          },
+          "units": {
+            "type": "string",
+            "description": "Consumed units for the period, as a string for BigInt safety",
+            "example": "1280"
+          },
+          "period_start": {
+            "type": "string",
+            "description": "Start of the billing period (inclusive, ISO 8601)"
+          },
+          "period_end": {
+            "type": "string",
+            "description": "End of the billing period (exclusive, ISO 8601)"
+          },
+          "updated_at": {
+            "type": "string",
+            "description": "When the projection was last advanced. Null when no usage has been folded into this period yet, and always null for an `at=` reply (which is replayed from raw events rather than read from the projection).",
+            "nullable": true
+          },
+          "as_of": {
+            "type": "string",
+            "description": "The point in time the units were replayed as of. Present only when `at=` was supplied."
+          }
+        },
+        "required": ["meter_id", "customer_id", "units", "period_start", "period_end", "updated_at"]
+      },
+      "IngestUsageEventApiRequestDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The usage event name; must match a meter to be aggregated",
+            "example": "image.generated",
+            "maxLength": 128
+          },
+          "customer_id": {
+            "type": "string",
+            "description": "The Creem customer this usage is attributed to. Exactly one of `customer_id` / `external_customer_id` is required per event; the id must belong to an existing customer of your store or the whole batch is rejected. Trimmed; letters, digits, `_` and `-` only; at most 255 characters.",
+            "example": "cust_abc123"
+          },
+          "external_customer_id": {
+            "type": "string",
+            "description": "Your own id for this customer, resolved to the Creem customer it was registered for via the customers API. Exactly one of `customer_id` / `external_customer_id` is required per event; an id no customer carries rejects the whole batch. Trimmed; letters, digits, `_` and `-` only; at most 255 characters.",
+            "example": "user-42"
+          },
+          "event_id": {
+            "type": "string",
+            "description": "Your idempotency key for this event, unique within your store. Re-sending the same event_id is a no-op. Generated for you when omitted — supply your own if you want retries to be safe.",
+            "example": "order-1234"
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "When the usage occurred (ISO 8601), on your clock. Defaults to the time of ingestion.",
+            "example": "2026-08-15T10:30:00.000Z"
+          },
+          "properties": {
+            "type": "object",
+            "description": "The event's attributes — the ONE bag. Meter filter clauses and aggregation properties (e.g. \"tokens\") resolve their keys here, unprefixed. At most 50 keys, keys at most 40 characters, string and serialized-object values at most 500 characters.",
+            "additionalProperties": true,
+            "example": {
+              "tokens": 1200,
+              "tier": "pro"
+            }
+          }
+        },
+        "required": ["name"]
+      },
+      "IngestUsageEventsApiRequestDto": {
+        "type": "object",
+        "properties": {
+          "events": {
+            "description": "The batch of usage events to ingest (1–100). The whole batch is validated before anything is written.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IngestUsageEventApiRequestDto"
+            }
+          }
+        },
+        "required": ["events"]
+      },
+      "IngestUsageEventWarningApiDto": {
+        "type": "object",
+        "properties": {
+          "index": {
+            "type": "number",
+            "description": "Zero-based index of the event in the submitted batch",
+            "example": 3
+          },
+          "code": {
+            "type": "string",
+            "description": "Warning code. `no_matching_meter`: no meter consumes this event name. `meter_archived`: only archived meters match — unarchive one to resume aggregation. `timestamp_outside_late_window`: the billing period the timestamp falls in is finalized, so the event will never change its totals.",
+            "enum": ["no_matching_meter", "meter_archived", "timestamp_outside_late_window"],
+            "example": "no_matching_meter"
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable explanation"
+          }
+        },
+        "required": ["index", "code", "message"]
+      },
+      "IngestUsageEventsApiResponseDto": {
+        "type": "object",
+        "properties": {
+          "accepted": {
+            "type": "number",
+            "description": "How many events were accepted. Always the size of the submitted batch — validation is all-or-nothing, so a 202 means every event in the batch was accepted.",
+            "example": 100
+          },
+          "event_ids": {
+            "description": "The `event_id` each accepted event was recorded under, in the order they were submitted — your own value where you supplied one, the generated value where you did not. This is the stored id after normalisation (surrounding whitespace is trimmed), so it is exactly what `reference` on GET /v1/events will match. Use it to correlate a submitted event with the row it became.",
+            "example": ["order-1", "order-2"],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "warnings": {
+            "description": "Advisory warnings about accepted events that will not produce billable usage as sent — no active meter consumes the event name, only archived meters match, or the timestamp falls in an already-finalized billing period. Warnings never change what was accepted: the events are stored either way. Absent when every event will aggregate normally.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IngestUsageEventWarningApiDto"
+            }
+          }
+        },
+        "required": ["accepted", "event_ids"]
+      },
+      "PreviewUsageEventErrorApiDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Validation error code",
+            "example": "invalid_usage_event"
+          },
+          "message": {
+            "type": "string",
+            "description": "What is wrong with the event"
+          },
+          "param": {
+            "type": "string",
+            "description": "The offending field, named as you sent it",
+            "example": "customer_id",
+            "nullable": true
+          }
+        },
+        "required": ["code", "message"]
+      },
+      "PreviewUsageEventWarningApiDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Warning code — same set as ingest warnings",
+            "enum": ["no_matching_meter", "meter_archived", "timestamp_outside_late_window"],
+            "example": "no_matching_meter"
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable explanation"
+          }
+        },
+        "required": ["code", "message"]
+      },
+      "PreviewUsageEventReportApiDto": {
+        "type": "object",
+        "properties": {
+          "valid": {
+            "type": "boolean",
+            "description": "Whether this event would pass ingest validation"
+          },
+          "event_id": {
+            "type": "string",
+            "description": "The idempotency key the event would be recorded under — your `event_id`, trimmed. Null when the event is invalid, and also null when you omitted `event_id`: ingest generates a fresh id at accept time, so previewing one would be misleading.",
+            "nullable": true,
+            "example": "order-1234"
+          },
+          "customer_id": {
+            "type": "string",
+            "description": "The Creem customer the usage would be attributed to — resolved from your `external_customer_id` where you sent one. Null when the event is invalid or the reference does not resolve.",
+            "nullable": true,
+            "example": "cust_abc123"
+          },
+          "error": {
+            "description": "Why the event is invalid. Null when valid.",
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PreviewUsageEventErrorApiDto"
+              }
+            ]
+          },
+          "duplicate": {
+            "type": "boolean",
+            "description": "Advisory: would this event deduplicate against an already-stored event (or an earlier entry of this batch)? Null when the event is invalid. Racy by nature — a signal for debugging retries, not a guarantee.",
+            "nullable": true
+          },
+          "matched_meters": {
+            "description": "Ids of the active meters that would consume this event, at preview time",
+            "example": ["mtr_abc123"],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "warnings": {
+            "description": "Advisory warnings — same semantics as ingest warnings",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PreviewUsageEventWarningApiDto"
+            }
+          }
+        },
+        "required": ["valid", "matched_meters", "warnings"]
+      },
+      "PreviewUsageEventsApiResponseDto": {
+        "type": "object",
+        "properties": {
+          "valid": {
+            "type": "boolean",
+            "description": "Whether the batch as submitted would be accepted by POST /v1/events/ingest (ingest validation is all-or-nothing)"
+          },
+          "events": {
+            "description": "Per-event report, in submission order",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PreviewUsageEventReportApiDto"
+            }
+          }
+        },
+        "required": ["valid", "events"]
+      },
+      "UsageEventApiResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Usage event ID",
+            "example": "uev_abc123"
+          },
+          "customer_id": {
+            "type": "string",
+            "description": "Customer ID",
+            "example": "cust_abc123"
+          },
+          "event_id": {
+            "type": "string",
+            "description": "Your idempotency key for this event",
+            "example": "order-1234"
+          },
+          "name": {
+            "type": "string",
+            "description": "Event name",
+            "example": "image.generated"
+          },
+          "properties": {
+            "type": "object",
+            "description": "The event's attributes — meter filters and aggregation read their keys here",
+            "additionalProperties": true
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "When the usage occurred, on your clock (ISO 8601)"
+          },
+          "created_at": {
+            "type": "string",
+            "description": "When the event was ingested (ISO 8601)"
+          },
+          "matched_meters": {
+            "description": "Ids of the ACTIVE meters that consume this event name, computed at read time (an archived or later-created meter changes this answer — it is not stored with the event). An empty array means the event is not feeding any aggregation right now.",
+            "example": ["mtr_abc123"],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "customer_id",
+          "event_id",
+          "name",
+          "properties",
+          "timestamp",
+          "created_at",
+          "matched_meters"
+        ]
+      },
+      "UsageEventListApiResponseDto": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "description": "Object type",
+            "example": "list"
+          },
+          "data": {
+            "description": "Array of usage events",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UsageEventApiResponseDto"
+            }
+          },
+          "has_more": {
+            "type": "boolean",
+            "description": "Whether more items exist beyond this page"
+          }
+        },
+        "required": ["object", "data", "has_more"]
       },
       "CreateAffiliateInviteRequestEntity": {
         "type": "object",
@@ -6345,8 +8864,8 @@
           },
           "invite_status": {
             "type": "string",
-            "description": "Invite lifecycle for email-type recipients that have not been accepted yet: `pending` (awaiting acceptance) or `declined`. Absent for resolved store/user recipients.",
-            "enum": ["pending", "declined"],
+            "description": "Invite lifecycle for email-type recipients that have not been accepted yet: `pending` (awaiting acceptance), `declined` (recipient declined) or `revoked` (merchant cancelled). Absent for resolved store/user recipients.",
+            "enum": ["pending", "declined", "revoked"],
             "example": "pending",
             "nullable": true
           }
@@ -6440,6 +8959,280 @@
           }
         },
         "required": ["items", "pagination"]
+      },
+      "WebhookDeliveryMode": {
+        "type": "string",
+        "description": "How events reach this endpoint: `http` deliveries are POSTed to `url`; `cli` deliveries wait in the pending-events feed for a local `creem listen` session.",
+        "enum": ["http", "cli"]
+      },
+      "WebhookStatus": {
+        "type": "string",
+        "description": "Whether the endpoint receives deliveries. Disabled endpoints keep their configuration but receive nothing.",
+        "enum": ["enabled", "disabled"]
+      },
+      "WebhookEventType": {
+        "type": "string",
+        "description": "The event type carried in the delivery.",
+        "enum": [
+          "checkout.completed",
+          "refund.created",
+          "dispute.created",
+          "subscription.active",
+          "subscription.trialing",
+          "subscription.canceled",
+          "subscription.scheduled_cancel",
+          "subscription.paid",
+          "subscription.expired",
+          "subscription.unpaid",
+          "subscription.update",
+          "subscription.past_due",
+          "subscription.paused",
+          "customer_credits.exhausted",
+          "credits.granted",
+          "credits.consumed",
+          "credits.auto_recharged"
+        ]
+      },
+      "WebhookEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the object."
+          },
+          "mode": {
+            "$ref": "#/components/schemas/EnvironmentMode"
+          },
+          "object": {
+            "type": "string",
+            "description": "A string representing the object’s type. Objects of the same type share the same value.",
+            "example": "webhook"
+          },
+          "store_id": {
+            "type": "string",
+            "description": "The store this webhook endpoint belongs to.",
+            "example": "sto_1234567890"
+          },
+          "name": {
+            "type": "string",
+            "description": "A human-readable label for the endpoint.",
+            "example": "Production billing events",
+            "nullable": true
+          },
+          "url": {
+            "type": "string",
+            "description": "The HTTPS URL Creem delivers events to. For `cli` endpoints this is a placeholder that is never called.",
+            "example": "https://example.com/webhooks/creem"
+          },
+          "delivery_mode": {
+            "example": "http",
+            "$ref": "#/components/schemas/WebhookDeliveryMode"
+          },
+          "status": {
+            "example": "enabled",
+            "$ref": "#/components/schemas/WebhookStatus"
+          },
+          "events": {
+            "type": "array",
+            "example": ["checkout.completed", "subscription.paid"],
+            "items": {
+              "$ref": "#/components/schemas/WebhookEventType"
+            }
+          },
+          "secret": {
+            "type": "string",
+            "description": "The signing secret used to verify delivery signatures. Only returned when the endpoint is created; retrieve it later via the secret endpoint.",
+            "example": "whsec_xxxxxxxxxxxxxxxxxxxx"
+          }
+        },
+        "required": [
+          "id",
+          "mode",
+          "object",
+          "store_id",
+          "name",
+          "url",
+          "delivery_mode",
+          "status",
+          "events"
+        ]
+      },
+      "WebhookListEntity": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "description": "List of webhook endpoints",
+            "items": {
+              "$ref": "#/components/schemas/WebhookEntity"
+            },
+            "type": "array"
+          },
+          "pagination": {
+            "description": "Pagination details for the list",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaginationEntity"
+              }
+            ]
+          }
+        },
+        "required": ["items", "pagination"]
+      },
+      "CreateWebhookRequestEntity": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "The HTTPS URL Creem will deliver events to. Required unless `delivery_mode` is `cli`, in which case it is ignored.",
+            "example": "https://example.com/webhooks/creem"
+          },
+          "delivery_mode": {
+            "example": "http",
+            "$ref": "#/components/schemas/WebhookDeliveryMode"
+          },
+          "name": {
+            "type": "string",
+            "description": "A human-readable label for the endpoint.",
+            "example": "Production billing events"
+          },
+          "events": {
+            "type": "array",
+            "example": ["checkout.completed", "subscription.paid"],
+            "items": {
+              "$ref": "#/components/schemas/WebhookEventType"
+            }
+          }
+        }
+      },
+      "UpdateWebhookRequestEntity": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "The HTTPS URL Creem will deliver events to.",
+            "example": "https://example.com/webhooks/creem"
+          },
+          "name": {
+            "type": "string",
+            "description": "A human-readable label for the endpoint. Send `null` to clear it.",
+            "example": "Production billing events",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/WebhookStatus"
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WebhookEventType"
+            }
+          }
+        }
+      },
+      "WebhookSecretEntity": {
+        "type": "object",
+        "properties": {
+          "secret": {
+            "type": "string",
+            "description": "The signing secret for this endpoint. Use it to verify the signature header on every delivery.",
+            "example": "whsec_xxxxxxxxxxxxxxxxxxxx"
+          }
+        },
+        "required": ["secret"]
+      },
+      "WebhookPendingEventEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The event ID. Acknowledge the delivery with this ID.",
+            "example": "evt_5Xb2mQ7vN1pLk9RtYw3zA"
+          },
+          "object": {
+            "type": "string",
+            "description": "A string representing the object’s type. Objects of the same type share the same value.",
+            "example": "webhook_event"
+          },
+          "event_type": {
+            "example": "checkout.completed",
+            "$ref": "#/components/schemas/WebhookEventType"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "When the event was recorded for this endpoint.",
+            "example": "2026-09-17T08:00:00.000Z"
+          },
+          "body": {
+            "type": "string",
+            "description": "The exact JSON request body of the delivery. Forward it byte-for-byte; the signature header is computed over this string.",
+            "example": "{\"id\":\"evt_5Xb2mQ7vN1pLk9RtYw3zA\",\"eventType\":\"checkout.completed\",\"created_at\":1758096000000,\"object\":{\"id\":\"ch_...\"}}"
+          },
+          "headers": {
+            "type": "object",
+            "description": "The HTTP headers a real delivery would carry, including `creem-signature`. Send them unchanged with `body`.",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "example": {
+              "creem-signature": "a1b2c3…",
+              "Content-Type": "application/json"
+            }
+          }
+        },
+        "required": ["id", "object", "event_type", "created_at", "body", "headers"]
+      },
+      "WebhookPendingEventListEntity": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "description": "Pending events, oldest first.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WebhookPendingEventEntity"
+            }
+          }
+        },
+        "required": ["items"]
+      },
+      "AcknowledgeWebhookEventRequestEntity": {
+        "type": "object",
+        "properties": {
+          "status_code": {
+            "type": "number",
+            "description": "The HTTP status code the local server answered with. Any 2xx marks the delivery successful. Report 503 when the local server could not be reached.",
+            "example": 200,
+            "minimum": 100,
+            "maximum": 599
+          },
+          "response_body": {
+            "type": "string",
+            "description": "The response body the local server returned, truncated to 10,000 characters. Shown in the dashboard event log.",
+            "example": "OK"
+          }
+        },
+        "required": ["status_code"]
+      },
+      "WebhookEventAckEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The acknowledged event ID.",
+            "example": "evt_5Xb2mQ7vN1pLk9RtYw3zA"
+          },
+          "object": {
+            "type": "string",
+            "description": "A string representing the object’s type. Objects of the same type share the same value.",
+            "example": "webhook_event"
+          },
+          "success": {
+            "type": "boolean",
+            "description": "Whether the first acknowledgment recorded a successful delivery (any 2xx). Repeated acknowledgments return the stored result.",
+            "example": true
+          }
+        },
+        "required": ["id", "object", "success"]
       },
       "WebhookSubscriptionEntity": {
         "type": "object",
@@ -6942,6 +9735,259 @@
         "required": ["id", "eventType", "created_at", "object"],
         "x-speakeasy-include": true
       },
+      "CustomerCreditsGrantEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Ledger transaction id (cct_...) the movement belongs to. One transaction may move several buckets; the pair (id, account_id) identifies this movement uniquely."
+          },
+          "customer_id": {
+            "type": "string",
+            "description": "Identifier of the customer whose bucket moved."
+          },
+          "account_id": {
+            "type": "string",
+            "description": "Ledger account id (cca_...) of the credit bucket that moved."
+          },
+          "bucket_name": {
+            "type": "string",
+            "description": "Name of the credit bucket. Buckets are per customer, and a store may run several (for example one per meter)."
+          },
+          "unit_label": {
+            "type": "string",
+            "description": "Display unit for the bucket (for example \"images\" or \"tokens\")."
+          },
+          "amount_minor_units": {
+            "type": "string",
+            "description": "Net amount moved for this bucket, in minor units, serialised as a string to preserve precision. Always positive; the event type carries the direction."
+          },
+          "balance_after_minor_units": {
+            "type": "string",
+            "description": "The bucket's balance immediately after this movement committed, in minor units, serialised as a string to preserve precision."
+          },
+          "reference": {
+            "type": "string",
+            "description": "Reference the ledger transaction was posted under — cross-links the movement to what caused it (an order, a usage aggregation window, an auto-recharge grant)."
+          },
+          "occurred_at": {
+            "type": "string",
+            "description": "ISO-8601 instant the ledger transaction was posted."
+          },
+          "object": {
+            "type": "string",
+            "description": "String representing the object type.",
+            "enum": ["customer_credits_grant"]
+          }
+        },
+        "required": [
+          "id",
+          "customer_id",
+          "account_id",
+          "bucket_name",
+          "unit_label",
+          "amount_minor_units",
+          "balance_after_minor_units",
+          "reference",
+          "occurred_at",
+          "object"
+        ]
+      },
+      "WebhookCreditsGrantedEventEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the event."
+          },
+          "eventType": {
+            "type": "string",
+            "description": "The event name.",
+            "enum": ["credits.granted"]
+          },
+          "created_at": {
+            "type": "number",
+            "description": "Timestamp of when the event was created."
+          },
+          "object": {
+            "description": "Object related to the event.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CustomerCreditsGrantEntity"
+              }
+            ]
+          }
+        },
+        "required": ["id", "eventType", "created_at", "object"],
+        "x-speakeasy-include": true
+      },
+      "CustomerCreditsConsumptionEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Ledger transaction id (cct_...) the movement belongs to. One transaction may move several buckets; the pair (id, account_id) identifies this movement uniquely."
+          },
+          "customer_id": {
+            "type": "string",
+            "description": "Identifier of the customer whose bucket moved."
+          },
+          "account_id": {
+            "type": "string",
+            "description": "Ledger account id (cca_...) of the credit bucket that moved."
+          },
+          "bucket_name": {
+            "type": "string",
+            "description": "Name of the credit bucket. Buckets are per customer, and a store may run several (for example one per meter)."
+          },
+          "unit_label": {
+            "type": "string",
+            "description": "Display unit for the bucket (for example \"images\" or \"tokens\")."
+          },
+          "amount_minor_units": {
+            "type": "string",
+            "description": "Net amount moved for this bucket, in minor units, serialised as a string to preserve precision. Always positive; the event type carries the direction."
+          },
+          "balance_after_minor_units": {
+            "type": "string",
+            "description": "The bucket's balance immediately after this movement committed, in minor units, serialised as a string to preserve precision."
+          },
+          "reference": {
+            "type": "string",
+            "description": "Reference the ledger transaction was posted under — cross-links the movement to what caused it (an order, a usage aggregation window, an auto-recharge grant)."
+          },
+          "occurred_at": {
+            "type": "string",
+            "description": "ISO-8601 instant the ledger transaction was posted."
+          },
+          "object": {
+            "type": "string",
+            "description": "String representing the object type.",
+            "enum": ["customer_credits_consumption"]
+          }
+        },
+        "required": [
+          "id",
+          "customer_id",
+          "account_id",
+          "bucket_name",
+          "unit_label",
+          "amount_minor_units",
+          "balance_after_minor_units",
+          "reference",
+          "occurred_at",
+          "object"
+        ]
+      },
+      "WebhookCreditsConsumedEventEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the event."
+          },
+          "eventType": {
+            "type": "string",
+            "description": "The event name.",
+            "enum": ["credits.consumed"]
+          },
+          "created_at": {
+            "type": "number",
+            "description": "Timestamp of when the event was created."
+          },
+          "object": {
+            "description": "Object related to the event.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CustomerCreditsConsumptionEntity"
+              }
+            ]
+          }
+        },
+        "required": ["id", "eventType", "created_at", "object"],
+        "x-speakeasy-include": true
+      },
+      "CustomerCreditsAutoRechargeEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Ledger transaction id (cct_...) of the credit grant the recharge posted — the same id the accompanying credits.granted event carries."
+          },
+          "object": {
+            "type": "string",
+            "description": "String representing the object type.",
+            "enum": ["customer_credits_auto_recharge"]
+          },
+          "customer_id": {
+            "type": "string",
+            "description": "Identifier of the customer whose bucket was topped up."
+          },
+          "bucket_name": {
+            "type": "string",
+            "description": "Name of the credit bucket that was topped up."
+          },
+          "unit_label": {
+            "type": "string",
+            "description": "Display unit for the bucket (for example \"images\" or \"tokens\")."
+          },
+          "amount_minor_units": {
+            "type": "string",
+            "description": "Amount granted into the bucket, in minor units, serialised as a string to preserve precision."
+          },
+          "currency": {
+            "type": "string",
+            "description": "ISO-4217 currency the off-session recharge was charged in."
+          },
+          "charge_reference": {
+            "type": "string",
+            "description": "Provider-side charge reference for the off-session top-up."
+          },
+          "reference": {
+            "type": "string",
+            "description": "Usage aggregation-window reference the recharge reconciles against."
+          }
+        },
+        "required": [
+          "id",
+          "object",
+          "customer_id",
+          "bucket_name",
+          "unit_label",
+          "amount_minor_units",
+          "currency",
+          "charge_reference",
+          "reference"
+        ]
+      },
+      "WebhookCreditsAutoRechargedEventEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the event."
+          },
+          "eventType": {
+            "type": "string",
+            "description": "The event name.",
+            "enum": ["credits.auto_recharged"]
+          },
+          "created_at": {
+            "type": "number",
+            "description": "Timestamp of when the event was created."
+          },
+          "object": {
+            "description": "Object related to the event.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CustomerCreditsAutoRechargeEntity"
+              }
+            ]
+          }
+        },
+        "required": ["id", "eventType", "created_at", "object"],
+        "x-speakeasy-include": true
+      },
       "WebhookSubscriptionActiveEventEntity": {
         "type": "object",
         "properties": {
@@ -7238,6 +10284,15 @@
             "$ref": "#/components/schemas/WebhookCustomerCreditsExhaustedEventEntity"
           },
           {
+            "$ref": "#/components/schemas/WebhookCreditsGrantedEventEntity"
+          },
+          {
+            "$ref": "#/components/schemas/WebhookCreditsConsumedEventEntity"
+          },
+          {
+            "$ref": "#/components/schemas/WebhookCreditsAutoRechargedEventEntity"
+          },
+          {
             "$ref": "#/components/schemas/WebhookSubscriptionActiveEventEntity"
           },
           {
@@ -7275,6 +10330,9 @@
             "refund.created": "#/components/schemas/WebhookRefundCreatedEventEntity",
             "dispute.created": "#/components/schemas/WebhookDisputeCreatedEventEntity",
             "customer_credits.exhausted": "#/components/schemas/WebhookCustomerCreditsExhaustedEventEntity",
+            "credits.granted": "#/components/schemas/WebhookCreditsGrantedEventEntity",
+            "credits.consumed": "#/components/schemas/WebhookCreditsConsumedEventEntity",
+            "credits.auto_recharged": "#/components/schemas/WebhookCreditsAutoRechargedEventEntity",
             "subscription.active": "#/components/schemas/WebhookSubscriptionActiveEventEntity",
             "subscription.trialing": "#/components/schemas/WebhookSubscriptionTrialingEventEntity",
             "subscription.canceled": "#/components/schemas/WebhookSubscriptionCanceledEventEntity",

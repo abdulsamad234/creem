@@ -27,9 +27,13 @@ import { tool$customerCreditsDebitAccount } from "./tools/customerCreditsDebitAc
 import { tool$customerCreditsFreezeAccount } from "./tools/customerCreditsFreezeAccount.js";
 import { tool$customerCreditsGetAccount } from "./tools/customerCreditsGetAccount.js";
 import { tool$customerCreditsGetAccountBalance } from "./tools/customerCreditsGetAccountBalance.js";
+import { tool$customerCreditsGetTransaction } from "./tools/customerCreditsGetTransaction.js";
 import { tool$customerCreditsListAccounts } from "./tools/customerCreditsListAccounts.js";
 import { tool$customerCreditsListEntries } from "./tools/customerCreditsListEntries.js";
+import { tool$customerCreditsListTransactionsByReference } from "./tools/customerCreditsListTransactionsByReference.js";
+import { tool$customerCreditsPostTransaction } from "./tools/customerCreditsPostTransaction.js";
 import { tool$customerCreditsReverseTransaction } from "./tools/customerCreditsReverseTransaction.js";
+import { tool$customerCreditsReverseTransactionById } from "./tools/customerCreditsReverseTransactionById.js";
 import { tool$customerCreditsUnfreezeAccount } from "./tools/customerCreditsUnfreezeAccount.js";
 import { tool$customersCreate } from "./tools/customersCreate.js";
 import { tool$customersGenerateBillingLinks } from "./tools/customersGenerateBillingLinks.js";
@@ -43,10 +47,22 @@ import { tool$discountsCreate } from "./tools/discountsCreate.js";
 import { tool$discountsDelete } from "./tools/discountsDelete.js";
 import { tool$discountsGet } from "./tools/discountsGet.js";
 import { tool$discountsSearch } from "./tools/discountsSearch.js";
+import { tool$eventsIngestEvents } from "./tools/eventsIngestEvents.js";
+import { tool$eventsListEvents } from "./tools/eventsListEvents.js";
+import { tool$eventsPreviewEvents } from "./tools/eventsPreviewEvents.js";
 import { tool$licensesActivate } from "./tools/licensesActivate.js";
 import { tool$licensesDeactivate } from "./tools/licensesDeactivate.js";
 import { tool$licensesListInstances } from "./tools/licensesListInstances.js";
 import { tool$licensesValidate } from "./tools/licensesValidate.js";
+import { tool$metersArchiveMeter } from "./tools/metersArchiveMeter.js";
+import { tool$metersCreateMeter } from "./tools/metersCreateMeter.js";
+import { tool$metersGetConsumedUnits } from "./tools/metersGetConsumedUnits.js";
+import { tool$metersGetMeter } from "./tools/metersGetMeter.js";
+import { tool$metersListMeters } from "./tools/metersListMeters.js";
+import { tool$metersPreviewExistingMeter } from "./tools/metersPreviewExistingMeter.js";
+import { tool$metersPreviewMeter } from "./tools/metersPreviewMeter.js";
+import { tool$metersUnarchiveMeter } from "./tools/metersUnarchiveMeter.js";
+import { tool$metersUpdateMeter } from "./tools/metersUpdateMeter.js";
 import { tool$moderationScreenPrompt } from "./tools/moderationScreenPrompt.js";
 import { tool$productsArchive } from "./tools/productsArchive.js";
 import { tool$productsCreate } from "./tools/productsCreate.js";
@@ -68,6 +84,14 @@ import { tool$subscriptionsUpgrade } from "./tools/subscriptionsUpgrade.js";
 import { tool$transactionsGetById } from "./tools/transactionsGetById.js";
 import { tool$transactionsRefund } from "./tools/transactionsRefund.js";
 import { tool$transactionsSearch } from "./tools/transactionsSearch.js";
+import { tool$webhooksAcknowledgeEvent } from "./tools/webhooksAcknowledgeEvent.js";
+import { tool$webhooksCreate } from "./tools/webhooksCreate.js";
+import { tool$webhooksDelete } from "./tools/webhooksDelete.js";
+import { tool$webhooksGet } from "./tools/webhooksGet.js";
+import { tool$webhooksGetSecret } from "./tools/webhooksGetSecret.js";
+import { tool$webhooksList } from "./tools/webhooksList.js";
+import { tool$webhooksListPendingEvents } from "./tools/webhooksListPendingEvents.js";
+import { tool$webhooksUpdate } from "./tools/webhooksUpdate.js";
 
 export function createMCPServer(deps: {
   logger: ConsoleLogger;
@@ -79,7 +103,7 @@ export function createMCPServer(deps: {
 }) {
   const server = new McpServer({
     name: "Creem",
-    version: "1.7.0",
+    version: "1.13.0",
   });
 
   const client = new CreemCore({
@@ -155,6 +179,22 @@ export function createMCPServer(deps: {
   tool(tool$customerCreditsDebitAccount);
   tool(tool$customerCreditsReverseTransaction);
   tool(tool$customerCreditsCloseAccount);
+  tool(tool$customerCreditsPostTransaction);
+  tool(tool$customerCreditsListTransactionsByReference);
+  tool(tool$customerCreditsGetTransaction);
+  tool(tool$customerCreditsReverseTransactionById);
+  tool(tool$metersCreateMeter);
+  tool(tool$metersListMeters);
+  tool(tool$metersPreviewMeter);
+  tool(tool$metersGetMeter);
+  tool(tool$metersUpdateMeter);
+  tool(tool$metersPreviewExistingMeter);
+  tool(tool$metersGetConsumedUnits);
+  tool(tool$metersArchiveMeter);
+  tool(tool$metersUnarchiveMeter);
+  tool(tool$eventsIngestEvents);
+  tool(tool$eventsPreviewEvents);
+  tool(tool$eventsListEvents);
   tool(tool$affiliatesCreateInvite);
   tool(tool$affiliatesListInvites);
   tool(tool$affiliatesList);
@@ -164,6 +204,14 @@ export function createMCPServer(deps: {
   tool(tool$splitsList);
   tool(tool$splitsRetrieve);
   tool(tool$splitsDelete);
+  tool(tool$webhooksList);
+  tool(tool$webhooksCreate);
+  tool(tool$webhooksGet);
+  tool(tool$webhooksUpdate);
+  tool(tool$webhooksDelete);
+  tool(tool$webhooksGetSecret);
+  tool(tool$webhooksListPendingEvents);
+  tool(tool$webhooksAcknowledgeEvent);
 
   return server;
 }

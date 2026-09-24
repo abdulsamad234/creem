@@ -78,7 +78,7 @@ yarn add creem
 This SDK is also an installable MCP server where the various SDK methods are
 exposed as tools that can be invoked by AI applications.
 
-> Node.js v22 or greater is required to run the MCP server from npm.
+> Node.js v20 or greater is required to run the MCP server from npm.
 
 <details>
 <summary>Claude installation steps</summary>
@@ -252,6 +252,10 @@ run();
 * [debitAccount](docs/sdks/customercredits/README.md#debitaccount) - Debit an account
 * [reverseTransaction](docs/sdks/customercredits/README.md#reversetransaction) - Reverse a transaction
 * [closeAccount](docs/sdks/customercredits/README.md#closeaccount) - Close an account
+* [postTransaction](docs/sdks/customercredits/README.md#posttransaction) - Post a transaction
+* [listTransactionsByReference](docs/sdks/customercredits/README.md#listtransactionsbyreference) - List transactions by reference
+* [getTransaction](docs/sdks/customercredits/README.md#gettransaction) - Retrieve a transaction
+* [reverseTransactionById](docs/sdks/customercredits/README.md#reversetransactionbyid) - Reverse a transaction
 
 ### [Customers](docs/sdks/customers/README.md)
 
@@ -271,12 +275,30 @@ run();
 * [create](docs/sdks/discounts/README.md#create) - Create a discount.
 * [delete](docs/sdks/discounts/README.md#delete) - Delete a discount.
 
+### [Events](docs/sdks/events/README.md)
+
+* [ingestEvents](docs/sdks/events/README.md#ingestevents) - Ingest usage events
+* [previewEvents](docs/sdks/events/README.md#previewevents) - Preview usage events
+* [listEvents](docs/sdks/events/README.md#listevents) - List usage events
+
 ### [Licenses](docs/sdks/licenses/README.md)
 
 * [activate](docs/sdks/licenses/README.md#activate) - Activates a license key.
 * [deactivate](docs/sdks/licenses/README.md#deactivate) - Deactivate a license key instance.
 * [validate](docs/sdks/licenses/README.md#validate) - Validates a license key or instance.
 * [listInstances](docs/sdks/licenses/README.md#listinstances) - List license instances.
+
+### [Meters](docs/sdks/meters/README.md)
+
+* [createMeter](docs/sdks/meters/README.md#createmeter) - Create a meter
+* [listMeters](docs/sdks/meters/README.md#listmeters) - List meters
+* [previewMeter](docs/sdks/meters/README.md#previewmeter) - Preview an unsaved meter definition
+* [getMeter](docs/sdks/meters/README.md#getmeter) - Retrieve a meter
+* [updateMeter](docs/sdks/meters/README.md#updatemeter) - Update a meter
+* [previewExistingMeter](docs/sdks/meters/README.md#previewexistingmeter) - Preview an existing meter
+* [getConsumedUnits](docs/sdks/meters/README.md#getconsumedunits) - Get consumed units for a customer
+* [archiveMeter](docs/sdks/meters/README.md#archivemeter) - Archive a meter
+* [unarchiveMeter](docs/sdks/meters/README.md#unarchivemeter) - Unarchive a meter
 
 ### [Moderation](docs/sdks/moderation/README.md)
 
@@ -317,6 +339,17 @@ run();
 * [search](docs/sdks/transactions/README.md#search) - List all transactions
 * [refund](docs/sdks/transactions/README.md#refund) - Refund a payment
 
+### [Webhooks](docs/sdks/webhooks/README.md)
+
+* [list](docs/sdks/webhooks/README.md#list) - List webhook endpoints
+* [create](docs/sdks/webhooks/README.md#create) - Create a webhook endpoint
+* [get](docs/sdks/webhooks/README.md#get) - Retrieve a webhook endpoint
+* [update](docs/sdks/webhooks/README.md#update) - Update a webhook endpoint
+* [delete](docs/sdks/webhooks/README.md#delete) - Delete a webhook endpoint
+* [getSecret](docs/sdks/webhooks/README.md#getsecret) - Retrieve a webhook signing secret
+* [listPendingEvents](docs/sdks/webhooks/README.md#listpendingevents) - List pending events for a CLI webhook endpoint
+* [acknowledgeEvent](docs/sdks/webhooks/README.md#acknowledgeevent) - Acknowledge a CLI webhook event
+
 </details>
 <!-- End Available Resources and Operations [operations] -->
 
@@ -349,9 +382,13 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`customerCreditsFreezeAccount`](docs/sdks/customercredits/README.md#freezeaccount) - Freeze an account
 - [`customerCreditsGetAccount`](docs/sdks/customercredits/README.md#getaccount) - Retrieve a customer credits account
 - [`customerCreditsGetAccountBalance`](docs/sdks/customercredits/README.md#getaccountbalance) - Get account balance
+- [`customerCreditsGetTransaction`](docs/sdks/customercredits/README.md#gettransaction) - Retrieve a transaction
 - [`customerCreditsListAccounts`](docs/sdks/customercredits/README.md#listaccounts) - List customer credits accounts
 - [`customerCreditsListEntries`](docs/sdks/customercredits/README.md#listentries) - List account entries
+- [`customerCreditsListTransactionsByReference`](docs/sdks/customercredits/README.md#listtransactionsbyreference) - List transactions by reference
+- [`customerCreditsPostTransaction`](docs/sdks/customercredits/README.md#posttransaction) - Post a transaction
 - [`customerCreditsReverseTransaction`](docs/sdks/customercredits/README.md#reversetransaction) - Reverse a transaction
+- [`customerCreditsReverseTransactionById`](docs/sdks/customercredits/README.md#reversetransactionbyid) - Reverse a transaction
 - [`customerCreditsUnfreezeAccount`](docs/sdks/customercredits/README.md#unfreezeaccount) - Unfreeze an account
 - [`customersCreate`](docs/sdks/customers/README.md#create) - Create a customer
 - [`customersGenerateBillingLinks`](docs/sdks/customers/README.md#generatebillinglinks) - Generate Customer Links
@@ -365,10 +402,22 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`discountsDelete`](docs/sdks/discounts/README.md#delete) - Delete a discount.
 - [`discountsGet`](docs/sdks/discounts/README.md#get) - Retrieve discount
 - [`discountsSearch`](docs/sdks/discounts/README.md#search) - Search discounts
+- [`eventsIngestEvents`](docs/sdks/events/README.md#ingestevents) - Ingest usage events
+- [`eventsListEvents`](docs/sdks/events/README.md#listevents) - List usage events
+- [`eventsPreviewEvents`](docs/sdks/events/README.md#previewevents) - Preview usage events
 - [`licensesActivate`](docs/sdks/licenses/README.md#activate) - Activates a license key.
 - [`licensesDeactivate`](docs/sdks/licenses/README.md#deactivate) - Deactivate a license key instance.
 - [`licensesListInstances`](docs/sdks/licenses/README.md#listinstances) - List license instances.
 - [`licensesValidate`](docs/sdks/licenses/README.md#validate) - Validates a license key or instance.
+- [`metersArchiveMeter`](docs/sdks/meters/README.md#archivemeter) - Archive a meter
+- [`metersCreateMeter`](docs/sdks/meters/README.md#createmeter) - Create a meter
+- [`metersGetConsumedUnits`](docs/sdks/meters/README.md#getconsumedunits) - Get consumed units for a customer
+- [`metersGetMeter`](docs/sdks/meters/README.md#getmeter) - Retrieve a meter
+- [`metersListMeters`](docs/sdks/meters/README.md#listmeters) - List meters
+- [`metersPreviewExistingMeter`](docs/sdks/meters/README.md#previewexistingmeter) - Preview an existing meter
+- [`metersPreviewMeter`](docs/sdks/meters/README.md#previewmeter) - Preview an unsaved meter definition
+- [`metersUnarchiveMeter`](docs/sdks/meters/README.md#unarchivemeter) - Unarchive a meter
+- [`metersUpdateMeter`](docs/sdks/meters/README.md#updatemeter) - Update a meter
 - [`moderationScreenPrompt`](docs/sdks/moderation/README.md#screenprompt) - Screen a prompt
 - [`productsArchive`](docs/sdks/products/README.md#archive) - Archive a product
 - [`productsCreate`](docs/sdks/products/README.md#create) - Creates a new product.
@@ -390,6 +439,14 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`transactionsGetById`](docs/sdks/transactions/README.md#getbyid) - Get a transaction by ID
 - [`transactionsRefund`](docs/sdks/transactions/README.md#refund) - Refund a payment
 - [`transactionsSearch`](docs/sdks/transactions/README.md#search) - List all transactions
+- [`webhooksAcknowledgeEvent`](docs/sdks/webhooks/README.md#acknowledgeevent) - Acknowledge a CLI webhook event
+- [`webhooksCreate`](docs/sdks/webhooks/README.md#create) - Create a webhook endpoint
+- [`webhooksDelete`](docs/sdks/webhooks/README.md#delete) - Delete a webhook endpoint
+- [`webhooksGet`](docs/sdks/webhooks/README.md#get) - Retrieve a webhook endpoint
+- [`webhooksGetSecret`](docs/sdks/webhooks/README.md#getsecret) - Retrieve a webhook signing secret
+- [`webhooksList`](docs/sdks/webhooks/README.md#list) - List webhook endpoints
+- [`webhooksListPendingEvents`](docs/sdks/webhooks/README.md#listpendingevents) - List pending events for a CLI webhook endpoint
+- [`webhooksUpdate`](docs/sdks/webhooks/README.md#update) - Update a webhook endpoint
 
 </details>
 <!-- End Standalone functions [standalone-funcs] -->
@@ -518,7 +575,10 @@ const creem = new Creem({
 
 async function run() {
   try {
-    const result = await creem.customerCredits.freezeAccount("<id>");
+    const result = await creem.customerCredits.createAccount({
+      customerId: "cust_abc123",
+      initialBalance: "300",
+    });
 
     console.log(result);
   } catch (error) {
@@ -545,7 +605,7 @@ run();
 **Primary error:**
 * [`CreemError`](./src/models/errors/creemerror.ts): The base class for HTTP error responses.
 
-<details><summary>Less common errors (7)</summary>
+<details><summary>Less common errors (8)</summary>
 
 <br />
 
@@ -558,7 +618,8 @@ run();
 
 
 **Inherit from [`CreemError`](./src/models/errors/creemerror.ts)**:
-* [`CustomerCreditsErrorResponseDto`](./src/models/errors/customercreditserrorresponsedto.ts): Status code `409`. Applicable to 5 of 55 methods.*
+* [`CustomerCreditsErrorResponseDto`](./src/models/errors/customercreditserrorresponsedto.ts): Applicable to 8 of 79 methods.*
+* [`UsageMeteringErrorApiResponseDto`](./src/models/errors/usagemeteringerrorapiresponsedto.ts): Applicable to 6 of 79 methods.*
 * [`ResponseValidationError`](./src/models/errors/responsevalidationerror.ts): Type mismatch between the data returned from the server and the structure expected by the SDK. See `error.rawValue` for the raw value and `error.pretty()` for a nicely formatted multi-line string.
 
 </details>

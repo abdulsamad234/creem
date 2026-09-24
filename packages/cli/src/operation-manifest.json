@@ -34,10 +34,7 @@
         "required": false,
         "schema": {
           "type": "string",
-          "enum": [
-            "active",
-            "archived"
-          ]
+          "enum": ["active", "archived"]
         }
       }
     ],
@@ -87,17 +84,11 @@
           },
           "currency": {
             "type": "string",
-            "enum": [
-              "EUR",
-              "USD"
-            ]
+            "enum": ["EUR", "USD"]
           },
           "billingType": {
             "type": "string",
-            "enum": [
-              "recurring",
-              "onetime"
-            ]
+            "enum": ["recurring", "onetime"]
           },
           "billingPeriod": {
             "type": "string",
@@ -113,35 +104,32 @@
           },
           "recurringInterval": {
             "type": "string",
-            "enum": [
-              "day",
-              "week",
-              "month",
-              "year"
-            ]
+            "enum": ["day", "week", "month", "year"]
           },
           "recurringIntervalCount": {
             "type": "integer"
           },
           "taxMode": {
             "type": "string",
-            "enum": [
-              "inclusive",
-              "exclusive"
-            ]
+            "enum": ["inclusive", "exclusive"]
+          },
+          "businessNetPricing": {
+            "type": "boolean"
           },
           "taxCategory": {
             "type": "string",
-            "enum": [
-              "saas",
-              "digital-goods-service",
-              "ebooks"
-            ]
+            "enum": ["saas", "digital-goods-service", "ebooks"]
           },
           "payWhatYouWant": {
             "type": "boolean"
           },
           "suggestedPrice": {
+            "type": "integer"
+          },
+          "trialPeriodDays": {
+            "type": "integer"
+          },
+          "trialPrice": {
             "type": "integer"
           },
           "defaultSuccessUrl": {
@@ -154,10 +142,7 @@
               "properties": {
                 "type": {
                   "type": "string",
-                  "enum": [
-                    "text",
-                    "checkbox"
-                  ]
+                  "enum": ["text", "checkbox"]
                 },
                 "key": {
                   "type": "string"
@@ -190,11 +175,7 @@
                   "required": []
                 }
               },
-              "required": [
-                "type",
-                "key",
-                "label"
-              ]
+              "required": ["type", "key", "label"]
             }
           },
           "customField": {
@@ -204,10 +185,7 @@
               "properties": {
                 "type": {
                   "type": "string",
-                  "enum": [
-                    "text",
-                    "checkbox"
-                  ]
+                  "enum": ["text", "checkbox"]
                 },
                 "key": {
                   "type": "string"
@@ -240,24 +218,91 @@
                   "required": []
                 }
               },
-              "required": [
-                "type",
-                "key",
-                "label"
-              ]
+              "required": ["type", "key", "label"]
             }
           },
           "abandonedCartRecoveryEnabled": {
             "type": "boolean"
+          },
+          "usagePrices": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "meterId": {
+                  "type": "string"
+                },
+                "unitPrice": {
+                  "type": "number"
+                },
+                "freeAllowance": {
+                  "type": "integer"
+                },
+                "cap": {
+                  "type": "integer",
+                  "nullable": true
+                },
+                "settlementMode": {
+                  "type": "string",
+                  "enum": ["prepaid", "postpaid"]
+                },
+                "targetAccount": {
+                  "type": "string",
+                  "enum": ["shared", "per_unit"]
+                },
+                "targetAccountName": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "trialUsageMode": {
+                  "type": "string",
+                  "enum": ["free", "accrue"]
+                }
+              },
+              "required": ["meterId", "unitPrice", "settlementMode"]
+            }
+          },
+          "features": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": ["customerCredits"]
+                },
+                "description": {
+                  "type": "string"
+                },
+                "customerCredits": {
+                  "type": "object",
+                  "properties": {
+                    "amount": {
+                      "type": "string"
+                    },
+                    "unitLabel": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "bucketName": {
+                      "type": "string",
+                      "nullable": true
+                    }
+                  },
+                  "required": ["amount"]
+                }
+              },
+              "required": ["type", "description", "customerCredits"]
+            }
           }
         },
-        "required": [
-          "name",
-          "description",
-          "price",
-          "currency",
-          "billingType"
-        ]
+        "required": ["name", "description", "price", "currency", "billingType"]
       },
       "primaryFlags": {
         "name": "--name",
@@ -348,17 +393,11 @@
           },
           "currency": {
             "type": "string",
-            "enum": [
-              "EUR",
-              "USD"
-            ]
+            "enum": ["EUR", "USD"]
           },
           "billingType": {
             "type": "string",
-            "enum": [
-              "recurring",
-              "onetime"
-            ]
+            "enum": ["recurring", "onetime"]
           },
           "billingPeriod": {
             "type": "string",
@@ -374,28 +413,108 @@
           },
           "recurringInterval": {
             "type": "string",
-            "enum": [
-              "day",
-              "week",
-              "month",
-              "year"
-            ]
+            "enum": ["day", "week", "month", "year"]
           },
           "recurringIntervalCount": {
             "type": "integer"
           },
           "taxMode": {
             "type": "string",
-            "enum": [
-              "inclusive",
-              "exclusive"
-            ]
+            "enum": ["inclusive", "exclusive"]
+          },
+          "businessNetPricing": {
+            "type": "boolean"
+          },
+          "trialPeriodDays": {
+            "type": "integer",
+            "nullable": true
+          },
+          "trialPrice": {
+            "type": "integer",
+            "nullable": true
           },
           "payWhatYouWant": {
             "type": "boolean"
           },
           "suggestedPrice": {
             "type": "integer"
+          },
+          "usagePrices": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "meterId": {
+                  "type": "string"
+                },
+                "unitPrice": {
+                  "type": "number"
+                },
+                "freeAllowance": {
+                  "type": "integer"
+                },
+                "cap": {
+                  "type": "integer",
+                  "nullable": true
+                },
+                "settlementMode": {
+                  "type": "string",
+                  "enum": ["prepaid", "postpaid"]
+                },
+                "targetAccount": {
+                  "type": "string",
+                  "enum": ["shared", "per_unit"]
+                },
+                "targetAccountName": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "trialUsageMode": {
+                  "type": "string",
+                  "enum": ["free", "accrue"]
+                }
+              },
+              "required": ["meterId", "unitPrice", "settlementMode"]
+            }
+          },
+          "features": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": ["customerCredits"]
+                },
+                "description": {
+                  "type": "string"
+                },
+                "customerCredits": {
+                  "type": "object",
+                  "properties": {
+                    "amount": {
+                      "type": "string"
+                    },
+                    "unitLabel": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "bucketName": {
+                      "type": "string",
+                      "nullable": true
+                    }
+                  },
+                  "required": ["amount"]
+                }
+              },
+              "required": ["type", "description", "customerCredits"]
+            }
           }
         },
         "required": []
@@ -646,17 +765,18 @@
           "metadata": {
             "type": "object",
             "additionalProperties": true
+          },
+          "externalId": {
+            "type": "string"
           }
         },
-        "required": [
-          "email",
-          "name"
-        ]
+        "required": ["email", "name"]
       },
       "primaryFlags": {
         "email": "--email",
         "name": "--name",
-        "metadata": "--metadata"
+        "metadata": "--metadata",
+        "externalId": "--external-id"
       }
     },
     "pagination": "none",
@@ -680,18 +800,24 @@
           "name": {
             "type": "string"
           },
+          "email": {
+            "type": "string"
+          },
           "metadata": {
             "type": "object",
             "additionalProperties": true
+          },
+          "externalId": {
+            "type": "string",
+            "nullable": true
           }
         },
-        "required": [
-          "customerId"
-        ]
+        "required": ["customerId"]
       },
       "primaryFlags": {
         "name": "--name",
-        "metadata": "--metadata"
+        "metadata": "--metadata",
+        "externalId": "--external-id"
       },
       "positional": "customerId"
     },
@@ -715,9 +841,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "customerId"
-        ]
+        "required": ["customerId"]
       },
       "primaryFlags": {},
       "positional": "customerId"
@@ -803,17 +927,11 @@
         "properties": {
           "mode": {
             "type": "string",
-            "enum": [
-              "immediate",
-              "scheduled"
-            ]
+            "enum": ["immediate", "scheduled"]
           },
           "onExecute": {
             "type": "string",
-            "enum": [
-              "cancel",
-              "pause"
-            ]
+            "enum": ["cancel", "pause"]
           }
         },
         "required": []
@@ -872,11 +990,7 @@
           },
           "updateBehavior": {
             "type": "string",
-            "enum": [
-              "proration-charge-immediately",
-              "proration-charge",
-              "proration-none"
-            ]
+            "enum": ["proration-charge-immediately", "proration-charge", "proration-none"]
           }
         },
         "required": []
@@ -917,16 +1031,10 @@
           },
           "updateBehavior": {
             "type": "string",
-            "enum": [
-              "proration-charge-immediately",
-              "proration-charge",
-              "proration-none"
-            ]
+            "enum": ["proration-charge-immediately", "proration-charge", "proration-none"]
           }
         },
-        "required": [
-          "productId"
-        ]
+        "required": ["productId"]
       },
       "primaryFlags": {
         "productId": "--product",
@@ -1051,10 +1159,7 @@
               "properties": {
                 "type": {
                   "type": "string",
-                  "enum": [
-                    "text",
-                    "checkbox"
-                  ]
+                  "enum": ["text", "checkbox"]
                 },
                 "key": {
                   "type": "string"
@@ -1087,11 +1192,7 @@
                   "required": []
                 }
               },
-              "required": [
-                "type",
-                "key",
-                "label"
-              ]
+              "required": ["type", "key", "label"]
             }
           },
           "customField": {
@@ -1101,10 +1202,7 @@
               "properties": {
                 "type": {
                   "type": "string",
-                  "enum": [
-                    "text",
-                    "checkbox"
-                  ]
+                  "enum": ["text", "checkbox"]
                 },
                 "key": {
                   "type": "string"
@@ -1137,11 +1235,7 @@
                   "required": []
                 }
               },
-              "required": [
-                "type",
-                "key",
-                "label"
-              ]
+              "required": ["type", "key", "label"]
             }
           },
           "successUrl": {
@@ -1152,9 +1246,7 @@
             "additionalProperties": true
           }
         },
-        "required": [
-          "productId"
-        ]
+        "required": ["productId"]
       },
       "primaryFlags": {
         "requestId": "--request-id",
@@ -1192,10 +1284,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "key",
-          "instanceName"
-        ]
+        "required": ["key", "instanceName"]
       },
       "primaryFlags": {
         "key": "--key",
@@ -1224,10 +1313,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "key",
-          "instanceId"
-        ]
+        "required": ["key", "instanceId"]
       },
       "primaryFlags": {
         "key": "--key",
@@ -1256,10 +1342,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "key",
-          "instanceId"
-        ]
+        "required": ["key", "instanceId"]
       },
       "primaryFlags": {
         "key": "--key",
@@ -1354,10 +1437,7 @@
         "cliFlagOrArgument": "--status",
         "required": false,
         "schema": {
-          "enum": [
-            "active",
-            "deleted"
-          ],
+          "enum": ["active", "deleted"],
           "type": "string"
         }
       },
@@ -1368,10 +1448,7 @@
         "cliFlagOrArgument": "--type",
         "required": false,
         "schema": {
-          "enum": [
-            "percentage",
-            "fixed"
-          ],
+          "enum": ["percentage", "fixed"],
           "type": "string"
         }
       },
@@ -1450,10 +1527,7 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "percentage",
-              "fixed"
-            ]
+            "enum": ["percentage", "fixed"]
           },
           "amount": {
             "type": "number"
@@ -1473,11 +1547,7 @@
           },
           "duration": {
             "type": "string",
-            "enum": [
-              "forever",
-              "once",
-              "repeating"
-            ]
+            "enum": ["forever", "once", "repeating"]
           },
           "durationInMonths": {
             "type": "number"
@@ -1489,12 +1559,7 @@
             }
           }
         },
-        "required": [
-          "name",
-          "type",
-          "duration",
-          "appliesToProducts"
-        ]
+        "required": ["name", "type", "duration", "appliesToProducts"]
       },
       "primaryFlags": {
         "name": "--name",
@@ -1650,11 +1715,7 @@
         "cliFlagOrArgument": "--interval",
         "required": false,
         "schema": {
-          "enum": [
-            "day",
-            "week",
-            "month"
-          ],
+          "enum": ["day", "week", "month"],
           "type": "string"
         }
       },
@@ -1665,10 +1726,7 @@
         "cliFlagOrArgument": "--currency",
         "required": true,
         "schema": {
-          "enum": [
-            "EUR",
-            "USD"
-          ],
+          "enum": ["EUR", "USD"],
           "type": "string"
         }
       }
@@ -1695,9 +1753,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "prompt"
-        ]
+        "required": ["prompt"]
       },
       "primaryFlags": {
         "prompt": "--prompt",
@@ -1723,9 +1779,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "transactionId"
-        ]
+        "required": ["transactionId"]
       },
       "primaryFlags": {},
       "positional": "transactionId"
@@ -1759,9 +1813,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "customerId"
-        ]
+        "required": ["customerId"]
       },
       "primaryFlags": {
         "name": "--name",
@@ -2006,11 +2058,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "amount",
-          "reference",
-          "idempotencyKey"
-        ]
+        "required": ["amount", "reference", "idempotencyKey"]
       },
       "primaryFlags": {
         "amount": "--amount",
@@ -2054,11 +2102,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "amount",
-          "reference",
-          "idempotencyKey"
-        ]
+        "required": ["amount", "reference", "idempotencyKey"]
       },
       "primaryFlags": {
         "amount": "--amount",
@@ -2096,9 +2140,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "transactionId"
-        ]
+        "required": ["transactionId"]
       },
       "primaryFlags": {
         "transactionId": "--transaction"
@@ -2129,6 +2171,118 @@
     "destructive": true
   },
   {
+    "operationId": "postCustomerCreditsTransaction",
+    "sdkMethod": "customerCredits.postTransaction",
+    "cliPath": "customer-credits transactions create",
+    "disposition": "implemented",
+    "description": "Post a multi-entry transaction (debits must equal credits)",
+    "parameters": [],
+    "body": {
+      "viaData": true,
+      "schema": {
+        "type": "object",
+        "properties": {
+          "reference": {
+            "type": "string"
+          },
+          "idempotencyKey": {
+            "type": "string"
+          },
+          "entries": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "accountId": {
+                  "type": "string"
+                },
+                "side": {
+                  "type": "string",
+                  "enum": ["debit", "credit"]
+                },
+                "amount": {
+                  "type": "string"
+                }
+              },
+              "required": ["accountId", "side", "amount"]
+            }
+          }
+        },
+        "required": ["reference", "idempotencyKey", "entries"]
+      },
+      "primaryFlags": {
+        "reference": "--reference",
+        "idempotencyKey": "--idempotency-key",
+        "entries": "--entry"
+      }
+    },
+    "pagination": "none",
+    "destructive": true
+  },
+  {
+    "operationId": "getCustomerCreditsTransaction",
+    "sdkMethod": "customerCredits.getTransaction",
+    "cliPath": "customer-credits transactions get",
+    "disposition": "implemented",
+    "description": "Retrieve a transaction",
+    "parameters": [
+      {
+        "name": "id",
+        "sdkName": "id",
+        "in": "path",
+        "cliFlagOrArgument": "<id>",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "pagination": "none",
+    "destructive": false
+  },
+  {
+    "operationId": "reverseCustomerCreditsTransaction",
+    "sdkMethod": "customerCredits.reverseTransactionById",
+    "cliPath": "customer-credits transactions reverse",
+    "disposition": "implemented",
+    "description": "Reverse a transaction by ID",
+    "parameters": [
+      {
+        "name": "id",
+        "sdkName": "id",
+        "in": "path",
+        "cliFlagOrArgument": "<id>",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "pagination": "none",
+    "destructive": true
+  },
+  {
+    "operationId": "listCustomerCreditsTransactionsByReference",
+    "sdkMethod": "customerCredits.listTransactionsByReference",
+    "cliPath": "customer-credits transactions list",
+    "disposition": "implemented",
+    "description": "List transactions by reference",
+    "parameters": [
+      {
+        "name": "reference",
+        "sdkName": "reference",
+        "in": "query",
+        "cliFlagOrArgument": "--reference",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "pagination": "none",
+    "destructive": false
+  },
+  {
     "operationId": "createAffiliateInvite",
     "sdkMethod": "affiliates.createInvite",
     "cliPath": "affiliates invites create",
@@ -2151,10 +2305,7 @@
             "nullable": true
           }
         },
-        "required": [
-          "email",
-          "name"
-        ]
+        "required": ["email", "name"]
       },
       "primaryFlags": {
         "email": "--email",
@@ -2273,11 +2424,7 @@
         "required": false,
         "schema": {
           "type": "string",
-          "enum": [
-            "pending",
-            "approved",
-            "paid"
-          ]
+          "enum": ["pending", "approved", "paid"]
         }
       },
       {
@@ -2322,10 +2469,7 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "store",
-              "product"
-            ]
+            "enum": ["store", "product"]
           },
           "typeReference": {
             "type": "string"
@@ -2337,10 +2481,7 @@
               "properties": {
                 "recipientType": {
                   "type": "string",
-                  "enum": [
-                    "store",
-                    "email"
-                  ]
+                  "enum": ["store", "email"]
                 },
                 "recipientReference": {
                   "type": "string"
@@ -2351,19 +2492,11 @@
                   "maximum": 100
                 }
               },
-              "required": [
-                "recipientType",
-                "recipientReference",
-                "amount"
-              ]
+              "required": ["recipientType", "recipientReference", "amount"]
             }
           }
         },
-        "required": [
-          "type",
-          "typeReference",
-          "recipients"
-        ]
+        "required": ["type", "typeReference", "recipients"]
       },
       "primaryFlags": {
         "description": "--description",
@@ -2447,5 +2580,894 @@
     ],
     "pagination": "none",
     "destructive": true
+  },
+  {
+    "operationId": "ingestUsageEvents",
+    "sdkMethod": "events.ingestEvents",
+    "cliPath": "events ingest",
+    "disposition": "implemented",
+    "description": "Ingest usage events",
+    "parameters": [],
+    "body": {
+      "viaData": true,
+      "schema": {
+        "type": "object",
+        "properties": {
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "customerId": {
+                  "type": "string"
+                },
+                "eventId": {
+                  "type": "string"
+                },
+                "timestamp": {
+                  "type": "string"
+                },
+                "properties": {
+                  "type": "object",
+                  "additionalProperties": true
+                },
+                "externalCustomerId": {
+                  "type": "string"
+                }
+              },
+              "required": ["name"]
+            }
+          }
+        },
+        "required": ["events"]
+      },
+      "primaryFlags": {
+        "events": "--events"
+      }
+    },
+    "pagination": "none",
+    "destructive": false
+  },
+  {
+    "operationId": "previewUsageEvents",
+    "sdkMethod": "events.previewEvents",
+    "cliPath": "events preview",
+    "disposition": "implemented",
+    "description": "Preview usage events",
+    "parameters": [],
+    "body": {
+      "viaData": true,
+      "schema": {
+        "type": "object",
+        "properties": {
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "customerId": {
+                  "type": "string"
+                },
+                "eventId": {
+                  "type": "string"
+                },
+                "timestamp": {
+                  "type": "string"
+                },
+                "properties": {
+                  "type": "object",
+                  "additionalProperties": true
+                },
+                "externalCustomerId": {
+                  "type": "string"
+                }
+              },
+              "required": ["name"]
+            }
+          }
+        },
+        "required": ["events"]
+      },
+      "primaryFlags": {
+        "events": "--events"
+      }
+    },
+    "pagination": "none",
+    "destructive": false
+  },
+  {
+    "operationId": "listUsageEvents",
+    "sdkMethod": "events.listEvents",
+    "cliPath": "events list",
+    "disposition": "implemented",
+    "description": "List usage events",
+    "parameters": [
+      {
+        "name": "meter_id",
+        "sdkName": "meterId",
+        "in": "query",
+        "cliFlagOrArgument": "--meter",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "customer_id",
+        "sdkName": "customerId",
+        "in": "query",
+        "cliFlagOrArgument": "--customer",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "reference",
+        "sdkName": "reference",
+        "in": "query",
+        "cliFlagOrArgument": "--reference",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "limit",
+        "sdkName": "limit",
+        "in": "query",
+        "cliFlagOrArgument": "--limit",
+        "required": false,
+        "schema": {
+          "minimum": 1,
+          "maximum": 100,
+          "type": "number"
+        }
+      },
+      {
+        "name": "starting_after",
+        "sdkName": "startingAfter",
+        "in": "query",
+        "cliFlagOrArgument": "--starting-after",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "pagination": "cursor",
+    "destructive": false
+  },
+  {
+    "operationId": "createMeter",
+    "sdkMethod": "meters.createMeter",
+    "cliPath": "meters create",
+    "disposition": "implemented",
+    "description": "Create a meter",
+    "parameters": [],
+    "body": {
+      "viaData": true,
+      "schema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "eventName": {
+            "type": "string"
+          },
+          "aggregation": {
+            "type": "string",
+            "enum": ["count", "sum", "average", "min", "max", "unique"]
+          },
+          "aggregationProperty": {
+            "type": "string"
+          },
+          "filter": {
+            "type": "object",
+            "properties": {
+              "conjunction": {
+                "type": "string",
+                "enum": ["and", "or"]
+              },
+              "clauses": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "property": {
+                      "type": "string"
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": [
+                        "equals",
+                        "not_equals",
+                        "gt",
+                        "gte",
+                        "lt",
+                        "lte",
+                        "contains",
+                        "not_contains"
+                      ]
+                    },
+                    "value": {}
+                  },
+                  "required": ["property", "operator", "value"]
+                }
+              }
+            },
+            "required": ["conjunction", "clauses"]
+          },
+          "unitLabel": {
+            "type": "string"
+          }
+        },
+        "required": ["name", "eventName", "aggregation", "unitLabel"]
+      },
+      "primaryFlags": {
+        "name": "--name",
+        "eventName": "--event-name",
+        "aggregation": "--aggregation",
+        "aggregationProperty": "--aggregation-property",
+        "filter": "--filter",
+        "unitLabel": "--unit-label"
+      }
+    },
+    "pagination": "none",
+    "destructive": false
+  },
+  {
+    "operationId": "listMeters",
+    "sdkMethod": "meters.listMeters",
+    "cliPath": "meters list",
+    "disposition": "implemented",
+    "description": "List meters",
+    "parameters": [
+      {
+        "name": "limit",
+        "sdkName": "limit",
+        "in": "query",
+        "cliFlagOrArgument": "--limit",
+        "required": false,
+        "schema": {
+          "minimum": 1,
+          "maximum": 100,
+          "type": "number"
+        }
+      },
+      {
+        "name": "starting_after",
+        "sdkName": "startingAfter",
+        "in": "query",
+        "cliFlagOrArgument": "--starting-after",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "ending_before",
+        "sdkName": "endingBefore",
+        "in": "query",
+        "cliFlagOrArgument": "--ending-before",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "include_archived",
+        "sdkName": "includeArchived",
+        "in": "query",
+        "cliFlagOrArgument": "--include-archived",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      }
+    ],
+    "pagination": "cursor",
+    "destructive": false
+  },
+  {
+    "operationId": "previewMeter",
+    "sdkMethod": "meters.previewMeter",
+    "cliPath": "meters preview",
+    "disposition": "implemented",
+    "description": "Preview an unsaved meter definition",
+    "parameters": [],
+    "body": {
+      "viaData": true,
+      "schema": {
+        "type": "object",
+        "properties": {
+          "eventName": {
+            "type": "string"
+          },
+          "aggregation": {
+            "type": "string",
+            "enum": ["count", "sum", "average", "min", "max", "unique"]
+          },
+          "aggregationProperty": {
+            "type": "string"
+          },
+          "filter": {
+            "type": "object",
+            "properties": {
+              "conjunction": {
+                "type": "string",
+                "enum": ["and", "or"]
+              },
+              "clauses": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "property": {
+                      "type": "string"
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": [
+                        "equals",
+                        "not_equals",
+                        "gt",
+                        "gte",
+                        "lt",
+                        "lte",
+                        "contains",
+                        "not_contains"
+                      ]
+                    },
+                    "value": {}
+                  },
+                  "required": ["property", "operator", "value"]
+                }
+              }
+            },
+            "required": ["conjunction", "clauses"]
+          },
+          "unitLabel": {
+            "type": "string"
+          }
+        },
+        "required": ["eventName", "aggregation"]
+      },
+      "primaryFlags": {
+        "eventName": "--event-name",
+        "aggregation": "--aggregation",
+        "aggregationProperty": "--aggregation-property",
+        "filter": "--filter",
+        "unitLabel": "--unit-label"
+      }
+    },
+    "pagination": "none",
+    "destructive": false
+  },
+  {
+    "operationId": "getMeter",
+    "sdkMethod": "meters.getMeter",
+    "cliPath": "meters get",
+    "disposition": "implemented",
+    "description": "Retrieve a meter",
+    "parameters": [
+      {
+        "name": "id",
+        "sdkName": "id",
+        "in": "path",
+        "cliFlagOrArgument": "<id>",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "pagination": "none",
+    "destructive": false
+  },
+  {
+    "operationId": "updateMeter",
+    "sdkMethod": "meters.updateMeter",
+    "cliPath": "meters update",
+    "disposition": "implemented",
+    "description": "Update a meter",
+    "parameters": [
+      {
+        "name": "id",
+        "sdkName": "id",
+        "in": "path",
+        "cliFlagOrArgument": "<id>",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "body": {
+      "viaData": true,
+      "schema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "aggregation": {
+            "type": "string",
+            "enum": ["count", "sum", "average", "min", "max", "unique"]
+          },
+          "aggregationProperty": {
+            "type": "string",
+            "nullable": true
+          },
+          "filter": {
+            "type": "object",
+            "properties": {
+              "conjunction": {
+                "type": "string",
+                "enum": ["and", "or"]
+              },
+              "clauses": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "property": {
+                      "type": "string"
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": [
+                        "equals",
+                        "not_equals",
+                        "gt",
+                        "gte",
+                        "lt",
+                        "lte",
+                        "contains",
+                        "not_contains"
+                      ]
+                    },
+                    "value": {}
+                  },
+                  "required": ["property", "operator", "value"]
+                }
+              }
+            },
+            "required": ["conjunction", "clauses"]
+          }
+        },
+        "required": []
+      },
+      "primaryFlags": {
+        "name": "--name",
+        "aggregation": "--aggregation",
+        "aggregationProperty": "--aggregation-property",
+        "filter": "--filter"
+      }
+    },
+    "pagination": "none",
+    "destructive": true
+  },
+  {
+    "operationId": "previewExistingMeter",
+    "sdkMethod": "meters.previewExistingMeter",
+    "cliPath": "meters preview-stored",
+    "disposition": "implemented",
+    "description": "Preview an existing meter",
+    "parameters": [
+      {
+        "name": "id",
+        "sdkName": "id",
+        "in": "path",
+        "cliFlagOrArgument": "<id>",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "pagination": "none",
+    "destructive": false
+  },
+  {
+    "operationId": "getMeterConsumedUnits",
+    "sdkMethod": "meters.getConsumedUnits",
+    "cliPath": "meters consumed",
+    "disposition": "implemented",
+    "description": "Get consumed units for a customer",
+    "parameters": [
+      {
+        "name": "id",
+        "sdkName": "id",
+        "in": "path",
+        "cliFlagOrArgument": "<id>",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "customer_id",
+        "sdkName": "customerId",
+        "in": "query",
+        "cliFlagOrArgument": "--customer",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "at",
+        "sdkName": "at",
+        "in": "query",
+        "cliFlagOrArgument": "--at",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "pagination": "none",
+    "destructive": false
+  },
+  {
+    "operationId": "archiveMeter",
+    "sdkMethod": "meters.archiveMeter",
+    "cliPath": "meters archive",
+    "disposition": "implemented",
+    "description": "Archive a meter",
+    "parameters": [
+      {
+        "name": "id",
+        "sdkName": "id",
+        "in": "path",
+        "cliFlagOrArgument": "<id>",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "pagination": "none",
+    "destructive": true
+  },
+  {
+    "operationId": "unarchiveMeter",
+    "sdkMethod": "meters.unarchiveMeter",
+    "cliPath": "meters unarchive",
+    "disposition": "implemented",
+    "description": "Unarchive a meter",
+    "parameters": [
+      {
+        "name": "id",
+        "sdkName": "id",
+        "in": "path",
+        "cliFlagOrArgument": "<id>",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "pagination": "none",
+    "destructive": false
+  },
+  {
+    "operationId": "listWebhooks",
+    "sdkMethod": "webhooks.list",
+    "cliPath": "webhooks list",
+    "disposition": "implemented",
+    "description": "List webhook endpoints",
+    "parameters": [
+      {
+        "name": "page_number",
+        "sdkName": "pageNumber",
+        "in": "query",
+        "cliFlagOrArgument": "--page",
+        "required": false,
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "page_size",
+        "sdkName": "pageSize",
+        "in": "query",
+        "cliFlagOrArgument": "--limit",
+        "required": false,
+        "schema": {
+          "type": "number"
+        }
+      }
+    ],
+    "pagination": "page",
+    "destructive": false
+  },
+  {
+    "operationId": "createWebhook",
+    "sdkMethod": "webhooks.create",
+    "cliPath": "webhooks create",
+    "disposition": "implemented",
+    "description": "Create a webhook endpoint",
+    "parameters": [],
+    "body": {
+      "viaData": true,
+      "schema": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "deliveryMode": {
+            "type": "string",
+            "enum": ["http", "cli"]
+          },
+          "name": {
+            "type": "string"
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "checkout.completed",
+                "refund.created",
+                "dispute.created",
+                "subscription.active",
+                "subscription.trialing",
+                "subscription.canceled",
+                "subscription.scheduled_cancel",
+                "subscription.paid",
+                "subscription.expired",
+                "subscription.unpaid",
+                "subscription.update",
+                "subscription.past_due",
+                "subscription.paused",
+                "customer_credits.exhausted",
+                "credits.granted",
+                "credits.consumed",
+                "credits.auto_recharged"
+              ]
+            }
+          }
+        },
+        "required": []
+      },
+      "primaryFlags": {
+        "url": "--url",
+        "name": "--name",
+        "events": "--event",
+        "deliveryMode": "--delivery-mode"
+      }
+    },
+    "pagination": "none",
+    "destructive": false
+  },
+  {
+    "operationId": "getWebhook",
+    "sdkMethod": "webhooks.get",
+    "cliPath": "webhooks get",
+    "disposition": "implemented",
+    "description": "Retrieve a webhook endpoint",
+    "parameters": [
+      {
+        "name": "id",
+        "sdkName": "id",
+        "in": "path",
+        "cliFlagOrArgument": "<id>",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "pagination": "none",
+    "destructive": false
+  },
+  {
+    "operationId": "updateWebhook",
+    "sdkMethod": "webhooks.update",
+    "cliPath": "webhooks update",
+    "disposition": "implemented",
+    "description": "Update a webhook endpoint",
+    "parameters": [
+      {
+        "name": "id",
+        "sdkName": "id",
+        "in": "path",
+        "cliFlagOrArgument": "<id>",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "body": {
+      "viaData": true,
+      "schema": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "enum": ["enabled", "disabled"]
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "checkout.completed",
+                "refund.created",
+                "dispute.created",
+                "subscription.active",
+                "subscription.trialing",
+                "subscription.canceled",
+                "subscription.scheduled_cancel",
+                "subscription.paid",
+                "subscription.expired",
+                "subscription.unpaid",
+                "subscription.update",
+                "subscription.past_due",
+                "subscription.paused",
+                "customer_credits.exhausted",
+                "credits.granted",
+                "credits.consumed",
+                "credits.auto_recharged"
+              ]
+            }
+          }
+        },
+        "required": []
+      },
+      "primaryFlags": {
+        "url": "--url",
+        "name": "--name",
+        "status": "--status",
+        "events": "--event"
+      }
+    },
+    "pagination": "none",
+    "destructive": false
+  },
+  {
+    "operationId": "deleteWebhook",
+    "sdkMethod": "webhooks.delete",
+    "cliPath": "webhooks delete",
+    "disposition": "implemented",
+    "description": "Delete a webhook endpoint",
+    "parameters": [
+      {
+        "name": "id",
+        "sdkName": "id",
+        "in": "path",
+        "cliFlagOrArgument": "<id>",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "pagination": "none",
+    "destructive": true
+  },
+  {
+    "operationId": "getWebhookSecret",
+    "sdkMethod": "webhooks.getSecret",
+    "cliPath": "webhooks secret",
+    "disposition": "implemented",
+    "description": "Retrieve a webhook signing secret",
+    "parameters": [
+      {
+        "name": "id",
+        "sdkName": "id",
+        "in": "path",
+        "cliFlagOrArgument": "<id>",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "pagination": "none",
+    "destructive": false
+  },
+  {
+    "operationId": "listPendingWebhookEvents",
+    "sdkMethod": "webhooks.listPendingEvents",
+    "cliPath": "webhooks pending",
+    "disposition": "implemented",
+    "description": "List pending events for a CLI webhook endpoint",
+    "parameters": [
+      {
+        "name": "id",
+        "sdkName": "id",
+        "in": "path",
+        "cliFlagOrArgument": "<id>",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "limit",
+        "sdkName": "limit",
+        "in": "query",
+        "cliFlagOrArgument": "--limit",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        }
+      }
+    ],
+    "pagination": "none",
+    "destructive": false
+  },
+  {
+    "operationId": "acknowledgeWebhookEvent",
+    "sdkMethod": "webhooks.acknowledgeEvent",
+    "cliPath": "webhooks ack",
+    "disposition": "implemented",
+    "description": "Acknowledge a CLI webhook event",
+    "parameters": [
+      {
+        "name": "id",
+        "sdkName": "id",
+        "in": "path",
+        "cliFlagOrArgument": "<id>",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "event_id",
+        "sdkName": "eventId",
+        "in": "path",
+        "cliFlagOrArgument": "--event-id",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "body": {
+      "viaData": true,
+      "primaryFlags": {
+        "statusCode": "--status-code",
+        "responseBody": "--response-body"
+      },
+      "schema": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "minimum": 100,
+            "maximum": 599
+          },
+          "responseBody": {
+            "type": "string"
+          }
+        },
+        "required": ["statusCode"]
+      }
+    },
+    "pagination": "none",
+    "destructive": false
   }
 ]

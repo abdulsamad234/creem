@@ -391,6 +391,7 @@ async function run() {
     metadata: {
 
     },
+    externalId: "user-42",
   });
 
   console.log(result);
@@ -420,6 +421,7 @@ async function run() {
     metadata: {
   
     },
+    externalId: "user-42",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -469,9 +471,11 @@ async function run() {
   const result = await creem.customers.update({
     customerId: "cust_abc123",
     name: "John Doe",
+    email: "john@example.com",
     metadata: {
 
     },
+    externalId: "{}",
   });
 
   console.log(result);
@@ -498,9 +502,11 @@ async function run() {
   const res = await customersUpdate(creem, {
     customerId: "cust_abc123",
     name: "John Doe",
+    email: "john@example.com",
     metadata: {
   
     },
+    externalId: "{}",
   });
   if (res.ok) {
     const { value: result } = res;

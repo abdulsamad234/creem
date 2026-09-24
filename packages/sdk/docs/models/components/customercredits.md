@@ -1,6 +1,6 @@
 # CustomerCredits
 
-Customer credits feature data.
+The credit grant behind a `customerCredits` feature. Absent for other feature types.
 
 ## Example Usage
 

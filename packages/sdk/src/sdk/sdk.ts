@@ -8,13 +8,16 @@ import { Checkouts } from "./checkouts.js";
 import { CustomerCredits } from "./customercredits.js";
 import { Customers } from "./customers.js";
 import { Discounts } from "./discounts.js";
+import { Events } from "./events.js";
 import { Licenses } from "./licenses.js";
+import { Meters } from "./meters.js";
 import { Moderation } from "./moderation.js";
 import { Products } from "./products.js";
 import { Splits } from "./splits.js";
 import { Stats } from "./stats.js";
 import { Subscriptions } from "./subscriptions.js";
 import { Transactions } from "./transactions.js";
+import { Webhooks } from "./webhooks.js";
 
 export class Creem extends ClientSDK {
   private _products?: Products;
@@ -67,6 +70,16 @@ export class Creem extends ClientSDK {
     return (this._customerCredits ??= new CustomerCredits(this._options));
   }
 
+  private _meters?: Meters;
+  get meters(): Meters {
+    return (this._meters ??= new Meters(this._options));
+  }
+
+  private _events?: Events;
+  get events(): Events {
+    return (this._events ??= new Events(this._options));
+  }
+
   private _affiliates?: Affiliates;
   get affiliates(): Affiliates {
     return (this._affiliates ??= new Affiliates(this._options));
@@ -75,5 +88,10 @@ export class Creem extends ClientSDK {
   private _splits?: Splits;
   get splits(): Splits {
     return (this._splits ??= new Splits(this._options));
+  }
+
+  private _webhooks?: Webhooks;
+  get webhooks(): Webhooks {
+    return (this._webhooks ??= new Webhooks(this._options));
   }
 }

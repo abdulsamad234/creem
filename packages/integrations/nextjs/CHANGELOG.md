@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.6.4
+
+### Patch Changes
+
+- 0277bec: Bump creem SDK dependency to 1.12.0
+- Updated dependencies [690edab]
+  - creem@1.13.0
+
+## 0.6.3
+
+### Patch Changes
+
+- 6ac6c3d: Bump creem SDK dependency to 1.11.0
+
+## 0.6.2
+
+### Patch Changes
+
+- d54c988: Bump creem SDK dependency to 1.10.1
+
+## 0.6.1
+
+### Patch Changes
+
+- 4f836c7: Bump creem SDK dependency to 1.9.0
+
 ## 0.6.0
 
 ### Minor Changes

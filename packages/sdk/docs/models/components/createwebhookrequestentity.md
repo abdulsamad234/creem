@@ -1,0 +1,25 @@
+# CreateWebhookRequestEntity
+
+## Example Usage
+
+```typescript
+import { CreateWebhookRequestEntity } from "creem/models/components";
+
+let value: CreateWebhookRequestEntity = {
+  url: "https://example.com/webhooks/creem",
+  name: "Production billing events",
+  events: [
+    "checkout.completed",
+    "subscription.paid",
+  ],
+};
+```
+
+## Fields
+
+| Field                                                                                                                                                       | Type                                                                                                                                                        | Required                                                                                                                                                    | Description                                                                                                                                                 | Example                                                                                                                                                     |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`                                                                                                                                                       | *string*                                                                                                                                                    | :heavy_minus_sign:                                                                                                                                          | The HTTPS URL Creem will deliver events to. Required unless `delivery_mode` is `cli`, in which case it is ignored.                                          | https://example.com/webhooks/creem                                                                                                                          |
+| `deliveryMode`                                                                                                                                              | [components.WebhookDeliveryMode](../../models/components/webhookdeliverymode.md)                                                                            | :heavy_minus_sign:                                                                                                                                          | How events reach this endpoint: `http` deliveries are POSTed to `url`; `cli` deliveries wait in the pending-events feed for a local `creem listen` session. |                                                                                                                                                             |
+| `name`                                                                                                                                                      | *string*                                                                                                                                                    | :heavy_minus_sign:                                                                                                                                          | A human-readable label for the endpoint.                                                                                                                    | Production billing events                                                                                                                                   |
+| `events`                                                                                                                                                    | [components.WebhookEventType](../../models/components/webhookeventtype.md)[]                                                                                | :heavy_minus_sign:                                                                                                                                          | N/A                                                                                                                                                         | [<br/>"checkout.completed",<br/>"subscription.paid"<br/>]                                                                                                   |

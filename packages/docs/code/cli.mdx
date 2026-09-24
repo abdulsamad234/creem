@@ -66,6 +66,27 @@ creem transactions
 
 Search records, open details, and manage subscriptions from the terminal. See the [interactive guide](/ai/for-humans/cli#interactive-browsing) for navigation and examples.
 
+## Local webhooks
+
+`creem listen` delivers your store's webhooks to a local URL with no tunnel and no deploy. It creates a temporary endpoint in `cli` delivery mode, forwards every event with the exact body and `creem-signature` header a real delivery carries, reports the status your server returned, and deletes the endpoint when you stop it.
+
+```sh
+creem listen --forward-to http://localhost:3000/api/webhooks
+creem listen --forward-to http://localhost:3000/api/webhooks --events checkout.completed,subscription.paid
+```
+
+The signing secret is printed at startup so you can verify signatures exactly as in production. Trigger events with test checkouts, or use **Send test event** on the endpoint in the dashboard. Failed forwards are recorded in the dashboard event log with the local status; nothing is retried, so replay from the dashboard once your handler is fixed.
+
+Pending events are available for 24 hours. Disabled endpoints return no pending events. Dashboard replays queue a fresh event only for the selected CLI endpoint.
+
+The first acknowledgment of an event is final; repeated acknowledgments return the stored result. With `--json`, an event record's `status_code` describes this listener's local HTTP response, while `success` and the final `failed` count reflect the stored acknowledgment. These can differ when multiple listeners share an endpoint. Use separate CLI endpoints for independent listeners.
+
+For direct polling, `creem webhooks pending <id> --limit <count>` accepts an integer from 1 to 100 (default 50).
+
+- Listening in live mode requires `--live`.
+- `--webhook <id>` reuses a CLI-mode endpoint you manage yourself (it is never deleted); `--once` drains what is pending and exits.
+- `--json` prints one NDJSON record per event for scripts and agents.
+
 ## Command reference
 
 Use `--help` on any command to see its accepted flags. `credits`, `cust`, `subs`, and `txn` are aliases. IDs are positional where shown. Authentication, configuration, and `migrate lemon-squeezy` are also available.
@@ -80,6 +101,7 @@ Every operation with a body supports `--data` with camelCase field names. Choose
 creem checkouts create --product prod_123 --units 2 --customer-email person@example.com --json
 creem products create --data @product.json --idempotency-key import-1 --json
 cat customer.json | creem customers update cust_123 --data - --yes --json
+creem webhooks create --url https://example.com/webhooks/creem --event checkout.completed --json
 ```
 
 Repeat `--metadata key=value` for string metadata (last duplicate wins). Use `--data` for numeric or nested metadata. Repeat `--custom-field`, `--item`, or `--recipient` with JSON objects, and `--image-url` with ordered URLs. Credit amounts are strings and retain full precision. Free products accept `--price 0`. Custom billing accepts `--billing-period custom` with both recurring interval flags. Use `customFields` instead of the deprecated `customField`.
@@ -99,7 +121,7 @@ Single-page JSON returns the result without transport fields. `--all --json` agg
 
 Result data goes to stdout. JSON errors go to stderr as `{ "error": { "type", "message", "status", "traceId", "details", "cause", "suggestion", "retryAfter" } }`. Exit codes are 0 success, 1 unexpected, 2 usage/validation, 3 auth/config, 4 API response, and 5 network/timeout. A late NDJSON failure can leave earlier records on stdout; always check the exit code.
 
-Destructive operations require a TEST/LIVE confirmation in a terminal or `--yes` in noninteractive/JSON/NDJSON mode. This includes updates, upgrades, refunds, immediate/default cancellation, pause, archive/delete, license deactivation, and credit freeze/debit/reverse/close. Scheduled cancellation does not prompt. No writes are automatically retried; check ambiguous outcomes before retrying manually. Human output masks license keys; successful JSON retains the full response.
+Destructive operations require a TEST/LIVE confirmation in a terminal or `--yes` in noninteractive/JSON/NDJSON mode. This includes updates, upgrades, refunds, immediate/default cancellation, pause, archive/delete, license deactivation, credit freeze/debit/reverse/close, and posting or reversing credit transactions. Scheduled cancellation does not prompt. No writes are automatically retried; check ambiguous outcomes before retrying manually. Human output masks license keys; successful JSON retains the full response.
 
 ## Upgrading existing scripts
 

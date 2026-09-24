@@ -18,9 +18,17 @@ export type UpdateCustomerRequestEntity = {
    */
   name?: string | undefined;
   /**
+   * The email address of the customer. Must be unique within the store; changing it to an email already used by another customer returns 409. Stored lowercased. Omit to leave unchanged.
+   */
+  email?: string | undefined;
+  /**
    * Additional metadata for the customer. Omit to leave unchanged; send `null` to clear it.
    */
   metadata?: { [k: string]: any } | undefined;
+  /**
+   * Your own id for this customer. Unique per store; usage ingestion resolves `external_customer_id` against it. Omit to leave unchanged; send `null` to clear it. Trimmed; letters, digits, `_` and `-` only; at most 255 characters.
+   */
+  externalId?: string | null | undefined;
 };
 
 /** @internal */
@@ -31,17 +39,22 @@ export const UpdateCustomerRequestEntity$inboundSchema: z.ZodType<
 > = z.object({
   customer_id: z.string(),
   name: z.string().optional(),
+  email: z.string().optional(),
   metadata: z.record(z.any()).optional(),
+  external_id: z.nullable(z.string()).optional(),
 }).transform((v) => {
   return remap$(v, {
     "customer_id": "customerId",
+    "external_id": "externalId",
   });
 });
 /** @internal */
 export type UpdateCustomerRequestEntity$Outbound = {
   customer_id: string;
   name?: string | undefined;
+  email?: string | undefined;
   metadata?: { [k: string]: any } | undefined;
+  external_id?: string | null | undefined;
 };
 
 /** @internal */
@@ -52,10 +65,13 @@ export const UpdateCustomerRequestEntity$outboundSchema: z.ZodType<
 > = z.object({
   customerId: z.string(),
   name: z.string().optional(),
+  email: z.string().optional(),
   metadata: z.record(z.any()).optional(),
+  externalId: z.nullable(z.string()).optional(),
 }).transform((v) => {
   return remap$(v, {
     customerId: "customer_id",
+    externalId: "external_id",
   });
 });
 

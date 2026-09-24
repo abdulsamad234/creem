@@ -54,7 +54,13 @@ description: 'Answers to the most common questions about using Creem.'
     No, test and production environments are completely separate. You'll need to recreate your products in live mode. This ensures your production catalog is intentional and reviewed.
   </Accordion>
   <Accordion title="Does Creem support weekly billing?">
-    Currently, Creem supports **monthly**, **3-month**, **6-month**, and **yearly** billing cycles for subscriptions. Weekly billing is not available at this time.
+    Yes. For weekly billing, create a recurring product with `billing_period` set to `custom`, `recurring_interval` set to `week`, and `recurring_interval_count` set to `1`. Daily, monthly, 3-month, 6-month, and yearly cycles are available as presets. See [Create Product](/api-reference/endpoint/create-product).
+  </Accordion>
+  <Accordion title="If I change a product's price, will existing subscribers be charged the new amount?">
+    No. Existing subscriptions keep the price they signed up with, and only new checkouts use the new price. To move existing subscribers to a new price, see [Raising Prices for Existing Subscribers](/features/subscriptions/managing#raising-prices-for-existing-subscribers).
+  </Accordion>
+  <Accordion title="Can customers switch subscription plans or tiers themselves?">
+    Yes, if you group the plans in a [product bundle](/features/product-bundles) and turn on self-service upgrades. Customers can then switch between those products in the Customer Portal. To handle plan changes in your own application instead, use the [subscription upgrade API](/features/subscriptions/managing#programmatic-upgrades).
   </Accordion>
   <Accordion title="Which currencies does Creem support?">
     You can price products in **USD** and **EUR** today. Set the currency when creating a product (see [Create Your First Product](/guides/create-your-first-product)). Regardless of the currency you charge in, Creem handles tax collection and remittance as your [Merchant of Record](/merchant-of-record/what-is). Payout currency is handled separately — see [Payouts](/merchant-of-record/finance/payouts).
@@ -108,7 +114,7 @@ description: 'Answers to the most common questions about using Creem.'
     Go to the **Developers** section in the left sidebar of your dashboard. Make sure you're in the correct mode (test/live) using the toggle in the sidebar. See [Dashboard Overview](/getting-started/dashboard-overview) for a visual guide.
   </Accordion>
   <Accordion title="How do I test webhooks locally?">
-    Use a tunneling tool like [ngrok](https://ngrok.com) to expose your local server, then set the ngrok URL as your webhook endpoint in the dashboard. See [Webhooks](/code/webhooks) for full setup instructions.
+    Run `creem listen --forward-to http://localhost:3000/api/webhooks` with the [Creem CLI](/code/cli#local-webhooks). It receives your store's events and forwards them to your local server with the real signature header, then use **Send test event** on the endpoint in the dashboard or make test checkouts. If you prefer a public URL, a tunneling tool like [ngrok](https://ngrok.com) also works: set the tunnel URL as your webhook endpoint. See [Webhooks](/code/webhooks) for full setup instructions.
   </Accordion>
   <Accordion title="Does the webhook fire when a customer cancels?">
     Yes. The `subscription.canceled` event is fired when a subscription is canceled. If you want to revoke access immediately on cancellation (rather than at the end of the billing period), listen for this event. See [Subscriptions](/features/subscriptions/introduction).

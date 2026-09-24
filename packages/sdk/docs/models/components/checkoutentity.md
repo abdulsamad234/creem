@@ -25,6 +25,24 @@ let value: CheckoutEntity = {
         id: "feat_abc123",
         type: "customerCredits",
         description: "Access to premium course materials.",
+        customerCredits: {
+          amount: "100",
+          unitLabel: "tokens",
+          bucketName: "images",
+        },
+      },
+    ],
+    usagePrices: [
+      {
+        id: "price_abc123",
+        meterId: "mtr_abc123",
+        unitPrice: 0.002,
+        freeAllowance: 1000,
+        cap: 50000,
+        settlementMode: "postpaid",
+        targetAccount: "per_unit",
+        targetAccountName: "images",
+        trialUsageMode: "free",
       },
     ],
     price: 400,
@@ -33,8 +51,11 @@ let value: CheckoutEntity = {
     billingPeriod: "every-three-months",
     recurringInterval: "month",
     recurringIntervalCount: 3,
+    trialPeriodDays: 7,
+    trialPrice: 100,
     status: "archived",
     taxMode: "exclusive",
+    businessNetPricing: false,
     taxCategory: "saas",
     productUrl: "https://creem.io/product/prod_123123123123",
     defaultSuccessUrl: "https://example.com/?status=successful",
@@ -120,6 +141,6 @@ let value: CheckoutEntity = {
 | `checkoutUrl`                                                                                                                                                                                   | *string*                                                                                                                                                                                        | :heavy_minus_sign:                                                                                                                                                                              | The URL to which the customer will be redirected to complete the payment.                                                                                                                       |                                                                                                                                                                                                 |
 | `successUrl`                                                                                                                                                                                    | *string*                                                                                                                                                                                        | :heavy_minus_sign:                                                                                                                                                                              | The URL to which the user will be redirected after the checkout process is completed.                                                                                                           | https://example.com/return                                                                                                                                                                      |
 | `licenseKeys`                                                                                                                                                                                   | [components.LicenseEntity](../../models/components/licenseentity.md)[]                                                                                                                          | :heavy_minus_sign:                                                                                                                                                                              | License keys issued for the order.                                                                                                                                                              |                                                                                                                                                                                                 |
-| ~~`feature`~~                                                                                                                                                                                   | [components.ProductFeatureEntity](../../models/components/productfeatureentity.md)[]                                                                                                            | :heavy_minus_sign:                                                                                                                                                                              | : warning: ** DEPRECATED **: This will be removed in a future release, please migrate away from it as soon as possible.<br/><br/>DEPRECATED: Use `license_keys` instead. Features issued for the order. |                                                                                                                                                                                                 |
+| ~~`feature`~~                                                                                                                                                                                   | [components.Feature](../../models/components/feature.md)                                                                                                                                        | :heavy_minus_sign:                                                                                                                                                                              | : warning: ** DEPRECATED **: This will be removed in a future release, please migrate away from it as soon as possible.<br/><br/>DEPRECATED: Use `license_keys` instead. Features issued for the order. |                                                                                                                                                                                                 |
 | `metadata`                                                                                                                                                                                      | Record<string, *any*>                                                                                                                                                                           | :heavy_minus_sign:                                                                                                                                                                              | Metadata for the checkout in the form of key-value pairs                                                                                                                                        | {<br/>"userId": "user_123",<br/>"visitCount": 42,<br/>"lastVisit": "2023-04-01"<br/>}                                                                                                           |
 | `discount`                                                                                                                                                                                      | [components.CheckoutEntityDiscount](../../models/components/checkoutentitydiscount.md)                                                                                                          | :heavy_minus_sign:                                                                                                                                                                              | The discount applied to the checkout, if any.                                                                                                                                                   |                                                                                                                                                                                                 |

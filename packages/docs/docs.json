@@ -162,17 +162,43 @@
               "features/affiliate-program",
               "features/referral-program",
               "features/storefronts",
+              "features/custom-domains",
+              "features/short-links",
               "features/discounts",
               "features/trials",
               "features/customer-portal",
               "features/product-bundles",
               "features/moderation",
+              "features/usage-based-billing",
               {
                 "group": "Customer Credits",
                 "pages": [
                   "features/customer-credits/introduction",
                   "features/customer-credits/accounts",
-                  "features/customer-credits/transactions"
+                  "features/customer-credits/transactions",
+                  "features/customer-credits/auto-refill"
+                ]
+              },
+              {
+                "group": "Events",
+                "pages": [
+                  "api-reference/endpoint/ingest-usage-events",
+                  "api-reference/endpoint/preview-usage-events",
+                  "api-reference/endpoint/list-usage-events"
+                ]
+              },
+              {
+                "group": "Meters",
+                "pages": [
+                  "api-reference/endpoint/create-meter",
+                  "api-reference/endpoint/list-meters",
+                  "api-reference/endpoint/get-meter",
+                  "api-reference/endpoint/update-meter",
+                  "api-reference/endpoint/preview-meter",
+                  "api-reference/endpoint/preview-existing-meter",
+                  "api-reference/endpoint/get-meter-consumed-units",
+                  "api-reference/endpoint/archive-meter",
+                  "api-reference/endpoint/unarchive-meter"
                 ]
               },
               {
@@ -203,7 +229,8 @@
                       "code/sdks/better-auth/configuration",
                       "code/sdks/better-auth/client",
                       "code/sdks/better-auth/webhooks",
-                      "code/sdks/better-auth/server"
+                      "code/sdks/better-auth/server",
+                      "code/sdks/better-auth/migration"
                     ]
                   },
                   {
@@ -335,6 +362,7 @@
             "icon": "users",
             "pages": [
               "api-reference/endpoint/get-customer",
+              "api-reference/endpoint/update-customer",
               "api-reference/endpoint/list-customers",
               "api-reference/endpoint/create-customer-billing"
             ]
@@ -421,13 +449,31 @@
               "api-reference/endpoint/reverse-credits-transaction",
               "api-reference/endpoint/freeze-credits-account",
               "api-reference/endpoint/unfreeze-credits-account",
-              "api-reference/endpoint/close-credits-account"
+              "api-reference/endpoint/close-credits-account",
+              "api-reference/endpoint/post-credits-transaction",
+              "api-reference/endpoint/get-credits-transaction",
+              "api-reference/endpoint/reverse-credits-transaction-by-id",
+              "api-reference/endpoint/list-credits-transactions"
             ]
           },
           {
             "group": "Moderation",
             "icon": "shield-check",
             "pages": ["api-reference/endpoint/screen-prompt"]
+          },
+          {
+            "group": "Webhooks",
+            "icon": "webhook",
+            "pages": [
+              "api-reference/endpoint/list-webhooks",
+              "api-reference/endpoint/create-webhook",
+              "api-reference/endpoint/get-webhook",
+              "api-reference/endpoint/update-webhook",
+              "api-reference/endpoint/delete-webhook",
+              "api-reference/endpoint/get-webhook-secret",
+              "api-reference/endpoint/list-pending-webhook-events",
+              "api-reference/endpoint/acknowledge-webhook-event"
+            ]
           }
         ]
       }

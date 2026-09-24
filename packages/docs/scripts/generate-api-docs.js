@@ -45,10 +45,17 @@ const FILENAME_OVERRIDES = {
   debitCustomerCreditsAccount: "debit-account",
   reverseCustomerCreditsAccountTransaction: "reverse-credits-transaction",
   closeCustomerCreditsAccount: "close-credits-account",
+  postCustomerCreditsTransaction: "post-credits-transaction",
+  getCustomerCreditsTransaction: "get-credits-transaction",
+  reverseCustomerCreditsTransaction: "reverse-credits-transaction-by-id",
+  listCustomerCreditsTransactionsByReference: "list-credits-transactions",
 };
 
 // Fallback descriptions when not provided in OpenAPI spec
-const DESCRIPTION_FALLBACKS = {};
+const DESCRIPTION_FALLBACKS = {
+  updateCustomer:
+    "Update a customer's name, email, metadata or external id. Only the fields you send change.",
+};
 
 // Endpoint pages intentionally kept public but omitted from the curated API
 // reference navigation. Every other generated endpoint must be navigable.
