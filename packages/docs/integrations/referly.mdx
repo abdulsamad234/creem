@@ -163,7 +163,7 @@ the permissions Referly uses:
 | **Products: Read**                   | Always. Validates the connection and lists your products for product-based commission rules.                           |
 | **Discounts: Read and Write**        | Only if Referly should create and sync affiliate discount codes.                                                       |
 | **Customers: Read**                  | Only if you reward affiliates with Creem customer credits (Referly looks the affiliate's customer record up by email). |
-| **Customer credits: Read and Write** | Only if you reward affiliates with Creem customer credits (Referly creates and tops up their credits account).         |
+| **Customer Credits: Read and Write** | Only if you reward affiliates with Creem customer credits (Referly creates and tops up their credits account).         |
 
 Nothing else is required. Referly never writes customers, products or orders.
 
@@ -174,7 +174,7 @@ Test Mode purchases instead, which is how you run the test purchase in step 8.
   <img
     style={{ borderRadius: "0.5rem", maxWidth: "640px" }}
     src="/images/referly/api-key-permissions.png"
-    alt="Creem's New API key dialog with Full access switched off and read permission on Products, read and write on Discounts, read on Customers and read and write on Customer credits"
+    alt="Creem's New API key dialog with Full access switched off and read permission on Products, read and write on Discounts, read on Customers and read and write on Customer Credits"
   />
 </Frame>
 
@@ -220,11 +220,11 @@ clicks, stores the referral for your program's cookie window, and exposes it as
 Replace `YOUR_PROGRAM_ID` with the id shown in your dashboard; the copy button in Referly fills it
 in for you.
 
-<Frame caption="The tracking script step in Referly, with the copyable snippet and the install check.">
+<Frame caption="The tracking script step in Referly, with the copyable snippet.">
   <img
     style={{ borderRadius: "0.5rem" }}
     src="/images/referly/tracking-script.png"
-    alt="Referly's tracking script panel with the copyable script snippet and a Verify button"
+    alt="Referly's tracking script step with the copyable script snippet"
   />
 </Frame>
 
